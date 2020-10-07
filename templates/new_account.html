@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="#">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\new_accountt.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\verify_user.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#toggle").click(function () {
+                $(this).toggleClass("active");
+                $("#fullnav").toggleClass("open");
+            });
+        });
+    </script>
+
+
+    <title>MyFolio - Create new account</title>
+
+    <style>
+        .background {
+            z-index: -1;
+            position: fixed;
+            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .background-cover {
+            z-index: -1;
+            background-color: rgba(10, 10, 10, .40);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<div class="background">
+</div>
+<div class="background-cover">
+</div>
+<nav class="navbar navbar-expand-md navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light ml-3" href="#" id="logo-name">
+            <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
+            MyFolio
+        </a>
+    </div>
+</nav>
+<div class="fullnavBtn" id="toggle">
+    <span class="top"></span>
+    <span class="middle"></span>
+    <span class="bottom"></span>
+</div>
+<div class="fullnav mr-4" id="fullnav">
+    <nav class="fullnavMenu mr-4">
+        <ul>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Quick Guide</a></li>
+            <li><a href="#">Contact us</a></li>
+        </ul>
+    </nav>
+</div>
+
+<main class="container">
+    <div class="row" id="form-div">
+        <div class="col-12 rounded shadow" id="center-form">
+            <form method="post">
+                <h2>Create a new account.</h2>
+                {% csrf_token %}
+                <label> First Name</label>
+                {{ form.first_name }}
+                <label>Last Name</label>
+                {{ form.last_name }}
+                <label>Email</label>
+                {{ form.email }}
+                <small id="emailHelp" class="form-text">We'll never share your email with anyone
+                    else.</small>
+                <label>Username</label>
+                {{ form.username }}
+                <label>Password</label>
+                {{ form.password }}
+                <small class="form-text" id="email-help">Password should be minimum 7 letters long with atleast a
+                    character, a digit and a symbol</small>
+
+
+                    {% if form.errors %}
+                        {% for key,values in form.errors.items %}
+                            <div class="alert alert-warning" role="alert">
+                                <a>{{ key }}:{{ values }}</a>
+                                <br>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn">
+                        Sign up
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</main>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"
+        integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf"
+        crossorigin="anonymous"></script>
+</body>
+</html>

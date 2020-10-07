@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{% static 'main_app/stylesheets/home.css' %}">
+    <title>MyFolio - Home</title>
+</head>
+<body>
+<h1>
+    Home Page
+</h1>
+<a href="{% url 'add_blog' %}">Add Blog</a>
+<br>
+<a href="{% url 'logout_user' %}">Logout</a>
+<br>
+Blog will be here
+{% if all_blog %}
+
+    {% for blog in all_blog reversed %}
+
+        <h3>{{ blog.name }}</h3>
+        <article>
+            {{ blog.description }}
+        </article>
+        <article>
+            created at {{ blog.created_at|date:'M D, h:i' }}hrs
+        </article>
+        {% if blog.image %}
+        <img src="media/{{ blog.image }}" width='500px' height="auto">
+        {% endif %}
+    {% endfor %}
+
+{% endif %}
+</body>
+</html>
