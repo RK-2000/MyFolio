@@ -79,45 +79,19 @@ def verify_user(request):
 
 # Home page for logged in users
 
+class BlogView(LoginRequiredMixin, FormView, ListView):
+    login_url = 'verify_user'
+    redirect_field_name = 'home'
 
-class BlogView(FormView, ListView):
     model = Blog
     context_object_name = 'all_blog'
     template_name = 'home.html'
     form_class = AddBlog
-    success_url = '/home/'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()
         return redirect('home')
-
-
-'''
-def home(request):
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            try:
-                form = AddBlog(request.POST, request.FILES)
-                if form.is_valid():
-                    form.instance.name = request.user.first_name + ' ' + request.user.last_name
-                    form.save()
-                    print('successful')
-                    return redirect('home')
-                else:
-                    print(form.errors, len(form.errors))
-                    messages.error(request, 'Invalid Post!! Try again.')
-            except (IOError, ValueError, MultiValueDictKeyError):
-                print('form not correct')
-
-        form = AddBlog()
-        all_blog = Blog.objects.all().reverse()
-        count = Blog.objects.all().count()
-        return render(request, 'home.html', {'all_blog': all_blog, 'size': count, 'form': form})
-    else:
-        print('user not authenticated')
-        return redirect('introduction')
-'''
 
 
 # Logging out
