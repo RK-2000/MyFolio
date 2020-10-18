@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
     <style>
         .background-img {
-            background: url({% static 'main_app\img\sean.jpg' %}) 50% fixed no-repeat;
+            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
             position: absolute;
@@ -39,6 +39,15 @@
                 $("#fullnav").toggleClass("open");
             });
         });
+
+        function myFunction() {
+            var x = document.getElementById("exampleInputPassword1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
     </script>
 </head>
 <body>
@@ -78,6 +87,8 @@
                             else.</small>
                         <label class="email-label">Password</label>
                         {{ form.password }}
+                        <input type="checkbox" onclick="myFunction()">Show Password
+                        <br>
                         {% if messages %}
                             {% for message in messages %}
                                 <div class="alert alert-warning" role="alert">

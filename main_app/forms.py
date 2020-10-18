@@ -1,9 +1,10 @@
 from django import forms
 from django.forms import ModelForm
 from main_app.models import Blog
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 my_error_message = {
-    'invalid': ' Password should have 7 letters,a digit and a symbol',
+    'invalid': ' Password should have 7 letters,a digit and a symbol ',
     'required': 'This field is required'
 }
 
@@ -49,10 +50,6 @@ class AddBlog(ModelForm):
     class Meta:
         model = Blog
         fields = [
-            'description', 'image', 'name'
+            'image', 'description'
         ]
 
-        def form_valid(self, form):
-            form.instance.user = self.request.user
-
-            return super(AddBlog, self).form_valid(form)

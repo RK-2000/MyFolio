@@ -16,14 +16,12 @@ Including another URLconf
 
 from django.urls import path
 from main_app import views
-from django.conf import settings
-from django.conf.urls.static import static
+from main_app.views import BlogView
 
 urlpatterns = [
     path('', views.introduction_page, name='introduction'),
     path('new_account', views.new_account, name='new_account'),
-    path('home', views.home, name='home'),
-    path('add_blog', views.add_blog, name='add_blog'),
+    path('home', BlogView.as_view(), name='home'),
     path('login', views.verify_user, name='verify_user'),
     path('logout_user', views.logout_user, name='logout_user')
 ]

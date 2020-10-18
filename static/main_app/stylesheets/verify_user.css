@@ -80,9 +80,8 @@ form > small{
 
     #logo {
         width: 30px;
-        margin-left: 0px;
     }
     .btn{
-        border-radius: 30px;
+        border-radius: 30px$;
     }
 }

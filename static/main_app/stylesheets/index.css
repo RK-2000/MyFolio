@@ -19,7 +19,7 @@ body {
 }
 
 #logo-name {
-    font-family: Quicksand;
+
     font-size: 40px;
 }
 
@@ -54,7 +54,6 @@ body {
     }
 
     #logo-name {
-        font-family: Quicksand;
         font-size: 40px;
     }
 
@@ -71,9 +70,8 @@ body {
     }
 
     #welcome-message-article {
-        font-size: 14px;
-        margin: 34px;
-
+        font-size: 16px;
+        margin: 32px;
     }
 
     #login-btn-div {
@@ -104,7 +102,6 @@ body {
     }
 
     #logo-name {
-        font-family: Quicksand;
         font-size: 28px;
     }
 

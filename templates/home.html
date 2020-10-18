@@ -1,36 +1,156 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link type="text/css" href="{% static 'main_app/stylesheets/home.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyFolio - Home</title>
+
+    <link rel="stylesheet" type="text/css" href="#">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+    <style>
+        .background {
+            z-index: -1;
+            position: fixed;
+            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .background-cover {
+            z-index: -1;
+            background-color: rgba(10, 10, 10, .80);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#toggle").click(function () {
+                $(this).toggleClass("active");
+                $("#fullnav").toggleClass("open");
+            });
+        });
+
+        function myFunction() {
+            var x = document.getElementById("exampleInputPassword1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </head>
 <body>
-<h1>
-    Home Page
-</h1>
-<a href="{% url 'add_blog' %}">Add Blog</a>
-<br>
-<a href="{% url 'logout_user' %}">Logout</a>
-<br>
-Blog will be here
-{% if all_blog %}
+<div class="background">
+</div>
+<div class="background-cover">
+</div>
+<nav class="navbar navbar-light bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light ml-2" href="{% url 'home' %}" id="logo-name">
+            <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
+            MyFolio
+        </a>
+        <div class="fullnavBtn mt-4" id="toggle">
+            <span class="top"></span>
+            <span class="middle"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="fullnav mr-4" id="fullnav">
+            <nav class="fullnavMenu mr-4">
+                <ul>
+                    <li><a href="#">Edit Profile</a></li>
+                    <li><a href="#">Help</a></li>
+                    <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
 
-    {% for blog in all_blog reversed %}
+    </div>
+</nav>
+<div class="extra-space mb-4">
+</div>
+<main class="container">
+    <div class="add-blog row justify-content-center" id="add-blog">
+        <div class="card bg-dark col-12 col-md-10 mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Add Blog</h5>
+                <p class="card-text">What's on your mind??.</p>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Add Post
+                </button>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create a post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Card -->
+    {% if all_blog %}
+        {% for blog in all_blog reversed %}
+            <div class="row">
+                <div class="col-12 card-container mb-2">
+                    <div
+                            class="card shadow bg-dark border-secondary" id="card"
+                    >
+                        {% if blog.image %}
+                            <img src="media/{{ blog.image }}" class="card-img-top" alt=""/>
+                        {% endif %}
 
-        <h3>{{ blog.name }}</h3>
-        <article>
-            {{ blog.description }}
-        </article>
-        <article>
-            created at {{ blog.created_at|date:'M D, h:i' }}hrs
-        </article>
-        {% if blog.image %}
-        <img src="media/{{ blog.image }}" width='500px' height="auto">
-        {% endif %}
-    {% endfor %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ blog.author }}</h5>
+                            <p class="card-text">
+                                {{ blog.description }}
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">created at {{ blog.created_at|date:'M D, H:i' }}hr</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</main>
 
-{% endif %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
 </body>
 </html>
