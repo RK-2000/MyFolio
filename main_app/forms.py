@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from main_app.models import Blog
-from django.contrib.auth.mixins import LoginRequiredMixin
+from main_app.models import *
 
 my_error_message = {
     'invalid': ' Password should have 7 letters,a digit and a symbol ',
@@ -53,3 +52,49 @@ class AddBlog(ModelForm):
             'image', 'description'
         ]
 
+
+class CompleteUserForm(ModelForm):
+    class Meta:
+        model = UserCompleteProfile
+        fields = [
+            'about', 'dob', 'profile_picture'
+        ]
+        widgets = {
+            'dob': forms.TextInput(attrs={'type': 'date'})
+        }
+
+
+class LinksForm(ModelForm):
+    class Meta:
+        model = Link
+        fields = [
+            'link'
+        ]
+        widgets = {
+
+        }
+
+
+class ProjectsForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = [
+            'project_name', 'project_desc', 'project_link'
+        ]
+
+        widgets = {
+
+        }
+
+
+class EducationForm(ModelForm):
+    class Meta:
+        model = Education
+        fields = [
+            'school_name', 'degree', 'start_year', 'end_year', 'grade'
+        ]
+
+        widgets = {
+            'start_year': forms.TextInput(attrs={'type': 'date'}),
+            'end_year': forms.TextInput(attrs={'type': 'date'})
+        }
