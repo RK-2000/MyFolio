@@ -25,5 +25,5 @@ urlpatterns = [
     path('user_profile', GeneralDetails.as_view(), name='user_profile'),
     path('login', views.verify_user, name='verify_user'),
     path('logout_user', views.logout_user, name='logout_user'),
-    path('profile/<slug:name>', views.public_profile, name='public_profile')
+    path('profile/<slug:name>/', views.public_profile, name='public_profile')
 ]

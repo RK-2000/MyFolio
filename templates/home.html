@@ -24,7 +24,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgba(10, 10, 10, .80);
+            background-color: rgba(240, 240, 240, .80);
             position: fixed;
             top: 0;
             left: 0;
@@ -56,9 +56,9 @@
 </div>
 <div class="background-cover">
 </div>
-<nav class="navbar navbar-light bg-dark">
+<nav class="navbar navbar-light bg-light shadow-lg">
     <div class="container-fluid">
-        <a class="navbar-brand text-light ml-2" href="{% url 'home' %}" id="logo-name">
+        <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
             <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
             MyFolio
         </a>
@@ -83,10 +83,10 @@
 </div>
 <main class="container">
     <div class="add-blog row justify-content-center" id="add-blog">
-        <div class="card bg-dark col-12 col-md-10 mb-3">
+        <div class="card bg-light col-12 col-md-10 mb-3">
             <div class="card-body">
                 <h5 class="card-title">Add Blog</h5>
-                <p class="card-text">What's on your mind??.</p>
+                <p class="card-text ">What's on your mind??.</p>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Add Post
                 </button>
@@ -96,7 +96,7 @@
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content bg-dark">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Create a post</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -115,20 +115,40 @@
             </div>
         </div>
     </div>
+    <div>
+        <form method="post" id='search'>
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="search">
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    {% if form.errors %}
+        {% for key,values in form.errors.items %}
+            <div class="alert alert-warning" role="alert">
+                <a>{{ key }}:{{ values }}</a>
+                <br>
+            </div>
+        {% endfor %}
+    {% endif %}
     <!-- Card -->
     {% if all_blog %}
         {% for blog in all_blog reversed %}
             <div class="row">
                 <div class="col-12 card-container mb-2">
                     <div
-                            class="card shadow bg-dark border-secondary" id="card"
+                            class="card shadow bg-light text-dark" id="card"
                     >
-                        {% if blog.image %}
-                            <img src="media/{{ blog.image }}" class="card-img-top" alt=""/>
-                        {% endif %}
-
+                        <div class="card-header">
+                            <a class="h5 card-title text-dark"
+                               href="http://127.0.0.1:8000/profile/{{ blog.author }}">{{ blog.author_fn }}</a>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{ blog.author }}</h5>
+                            {% if blog.image %}
+                                <img src="media/{{ blog.image }}" class="card-img-top" alt=""/>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
                             <p class="card-text">
                                 {{ blog.description }}
                             </p>

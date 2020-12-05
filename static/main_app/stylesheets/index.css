@@ -13,7 +13,7 @@ body {
     justify-content: center;
     text-align: center;
     margin-top: 12%;
-    color: white;
+    color: black;
 
 
 }
@@ -39,8 +39,8 @@ body {
     #login-btn {
         border: #FF4E4E solid 2px;
         padding: 8px 20px;
-        color: white;
-        background-color: rgba(10, 10, 10, .80)
+        color: black;
+        background-color: white;
     }
 
     #welcome-message-article {
@@ -87,17 +87,18 @@ body {
         padding: 8px 24px;
         transition: 0.2s;
         background-size: 200% auto;
-        color: white;
+        color: black;
         display: block;
-        background-color: rgba(10, 10, 10, .80);
+        background-color: white;
     }
 
     #login-btn-2:hover {
 
         background-position: right center;
-        color: #fff;
+        background-color: #e4e4e4;
+        color: black;
         text-decoration: none;
-        border: white solid 2px;
+        border: #5897fb solid 2px;
 
     }
 
@@ -108,24 +109,27 @@ body {
     #logo {
         width: 40px;
     }
-    #new-account-btn{
-    max-width: 280px;
-    margin: 10px 40px;
-    font-size: 20px;
-    padding: 8px 24px;
-    transition: 0.2s;
-    border-radius: 40px;
-    background-color:  rgba(10, 10, 10, .80);
-    color: white;
-    box-shadow: 0 0 20px #000;
-    display: block;
-    border: #FF4E4E solid 2px;
-}
+
+    #new-account-btn {
+        max-width: 280px;
+        margin: 10px 40px;
+        font-size: 20px;
+        padding: 8px 24px;
+        transition: 0.2s;
+        border-radius: 40px;
+        background-color: white;
+        color: black;
+        display: block;
+        border: #FF4E4E solid 2px;
+    }
 }
 
 #login-btn:hover {
-    background-color: whitesmoke;
+    background-position: right center;
+    background-color: #e4e4e4;
     color: black;
+    text-decoration: none;
+    border: #5897fb solid 2px;
 
 }
 
@@ -142,19 +146,19 @@ body {
     font-size: 20px;
     padding: 8px 24px;
     transition: 0.2s;
-    background-color: rgba(10, 10, 10, .80);
-    color: white;
-    box-shadow: 0 0 20px #000;
+    background-color: white;
+    color: black;
     display: block;
     border: #FF4E4E solid 2px;
 }
 
 
 #new-account-btn:hover {
-    color: #000;
-    text-decoration: none;
-    border: white solid 2px;
-    background: whitesmoke;
+     background-position: right center;
+        background-color: #e4e4e4;
+        color: black;
+        text-decoration: none;
+        border: #5897fb solid 2px;
 
 }
 

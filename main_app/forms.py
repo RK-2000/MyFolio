@@ -24,7 +24,7 @@ class NewUserForm(forms.Form):
                                         'placeholder': 'eg : abc@gmail.com',
                                         'type': 'email'}))
 
-    username = forms.CharField(max_length=15, required=True,
+    username = forms.CharField(max_length=20, min_length=7, required=True,
                                widget=forms.TextInput(
                                    attrs={'class': 'form-control', 'id': 'username-field',
                                           'placeholder': 'eg : iamelon',
@@ -98,3 +98,7 @@ class EducationForm(ModelForm):
             'start_year': forms.TextInput(attrs={'type': 'date'}),
             'end_year': forms.TextInput(attrs={'type': 'date'})
         }
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=15, required=True)

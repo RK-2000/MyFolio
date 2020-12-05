@@ -1,19 +1,23 @@
 body {
     font-family: Quicksand;
-    color: white;
+    color: black;
 }
 
 .navbar {
     overflow: hidden;
     background-color: #333;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
+    position: fixed;
+    top: 0;
+    width: 100%;
     z-index: 999;
 }
 
 .extra-space {
     height: 100px;
+}
+
+.card{
+    border-radius: 20px;
 }
 
 

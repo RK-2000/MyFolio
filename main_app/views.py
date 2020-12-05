@@ -27,7 +27,7 @@ def new_account(request):
                 first_name = form.cleaned_data['first_name']
                 last_name = form.cleaned_data['last_name']
                 email = form.cleaned_data['email']
-                username = form.cleaned_data['username']
+                username = form.cleaned_data['username'].lower()
                 password = form.cleaned_data['password']
 
                 if User.objects.all().filter(email=email).first() is None and User.objects.all().filter(
@@ -77,7 +77,7 @@ def verify_user(request):
 
 
 # Home page for logged in users
-class BlogView(LoginRequiredMixin, FormView, ListView):
+'''class BlogView(LoginRequiredMixin, FormView, ListView):
     login_url = 'verify_user'
     redirect_field_name = 'home'
     model = Blog
@@ -87,8 +87,49 @@ class BlogView(LoginRequiredMixin, FormView, ListView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        user = User.objects.filter(username=self.request.user).first()
+        form.instance.author_fn = user.first_name+' '+user.last_name
         form.save()
         return redirect('home')
+'''
+
+
+class BlogView(LoginRequiredMixin, View):
+    login_url = 'verify_user'
+    redirect_field_name = 'home'
+    template_name = 'home.html'
+
+    def get(self, request):
+        data = Blog.objects.all()
+        form = SearchForm()
+        return render(request, 'home.html', {'data': data, 'form': form})
+
+    def post(self, request):
+        if self.request.POST.get('form_type') == 'search':
+            form = SearchForm(request.POST)
+            search = (form['search'].value()).lower()
+            user_searched = User.objects.filter(username=search).first()
+            if user_searched != 'None':
+                return redirect('public_profile', **{'name': user_searched.username})
+            else:
+                messages.error(request, 'Wrong Password! Try again')
+                return redirect('home')
+
+
+import glob
+from PIL import Image, ImageDraw, ImageFilter
+
+
+def crop_center(pil_img, crop_width, crop_height):
+    img_width, img_height = pil_img.size
+    return pil_img.crop(((img_width - crop_width) // 2,
+                         (img_height - crop_height) // 2,
+                         (img_width + crop_width) // 2,
+                         (img_height + crop_height) // 2))
+
+
+def crop_max_square(pil_img):
+    return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
 
 
 # complete profile
@@ -99,8 +140,13 @@ class GeneralDetails(LoginRequiredMixin, View):
     template_name = 'complete_profile.html'
 
     def get(self, request):
-
         data = UserCompleteProfile.objects.filter(user=self.request.user).first()
+        im = Image.open(data.profile_picture)
+        thumb_width = 320
+        im_thumb = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
+        loc = 'media/' + str(data.profile_picture)
+        print(loc)
+        im_thumb.save(loc)
         links = Link.objects.filter(user=self.request.user).all()
         educations = Education.objects.filter(user=self.request.user).all()
         projects = Project.objects.filter(user=self.request.user).all()
@@ -118,7 +164,7 @@ class GeneralDetails(LoginRequiredMixin, View):
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'form1':
-            form1 = CompleteUserForm(request.POST)
+            form1 = CompleteUserForm(request.POST, request.FILES)
             form1.instance.user = self.request.user
             if form1.is_valid():
                 user = UserCompleteProfile.objects.filter(user=self.request.user).first()
@@ -191,6 +237,14 @@ def public_profile(request, name):
         })
     else:
         return redirect('verify_user')
+
+
+def public_post(request, post):
+    blog = Blog.objects.filter(blog_id=post).first()
+    if request.user.is_authenticated:
+        return render(request, 'public_post.html', {'blog': blog})
+    else:
+        return render(request, 'verify_user.html')
 
 
 # Logging out

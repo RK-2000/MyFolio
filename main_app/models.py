@@ -5,11 +5,13 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Blog(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    blog_id = models.AutoField(primary_key=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    author_fn = models.CharField(blank=False, null=False, max_length=50)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(blank=True, null=True, upload_to='images/')
+    image = models.ImageField(blank=True, null=True, upload_to='images/blog_images/')
 
 
 class UserCompleteProfile(models.Model):
