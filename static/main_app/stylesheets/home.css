@@ -12,15 +12,43 @@ body {
     z-index: 999;
 }
 
+#logo_div {
+    margin-right: 10px;
+}
+
+#search_div {
+    position: absolute;
+}
+
+#search {
+    float: right;
+}
+
+#search_bar_input {
+    border-width: 0px;
+    border-style: solid;
+    border-bottom-width: 2px;
+    background-color: transparent;
+    width: auto;
+}
+
 .extra-space {
     height: 100px;
 }
 
-.card{
-    border-radius: 20px;
+.card {
+    font-family: 'Google Sans Display';
+    border-radius: 10px;
+    font-weight: normal;
 }
 
+.blogs {
+    max-width: 720px;
+}
 
+card-title {
+    font-weight: lighter;
+}
 
 .card-container {
     display: flex;
@@ -28,8 +56,26 @@ body {
     align-items: center;
 }
 
-#card {
-    max-width: 600px;
-    height: 100%;
-    width: 100%;
+.button-div {
+    float: right;
+    right: 10px;
+    position: absolute;
+}
+
+.copy-btn {
+    position: absolute;
+    float: right;
+    border-style: none;
+    background-color: transparent;
+
+}
+
+.desc {
+    margin: 20px 10px;
+    font-family: "Google Sans Display";
+    font-weight: normal;
+}
+
+.image {
+    margin-top: 20px
 }

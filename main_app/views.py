@@ -6,6 +6,36 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from main_app.models import *
 from django.views.generic import FormView, ListView, View
+import re
+# Functions
+
+from PIL import Image, ImageDraw, ImageFilter
+
+
+def crop_center(pil_img, crop_width, crop_height):
+    img_width, img_height = pil_img.size
+    return pil_img.crop(((img_width - crop_width) // 2,
+                         (img_height - crop_height) // 2,
+                         (img_width + crop_width) // 2,
+                         (img_height + crop_height) // 2))
+
+
+def crop_max_square(pil_img):
+    return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
+
+
+def expand2square(pil_img, background_color):
+    width, height = pil_img.size
+    if width == height:
+        return pil_img
+    elif width > height:
+        result = Image.new(pil_img.mode, (width, width), background_color)
+        result.paste(pil_img, (0, (width - height) // 2))
+        return result
+    else:
+        result = Image.new(pil_img.mode, (height, height), background_color)
+        result.paste(pil_img, ((height - width) // 2, 0))
+        return result
 
 
 # Create your views here.
@@ -24,9 +54,9 @@ def new_account(request):
         if request.method == 'POST':
             form = NewUserForm(request.POST)
             if form.is_valid():
-                first_name = form.cleaned_data['first_name']
-                last_name = form.cleaned_data['last_name']
-                email = form.cleaned_data['email']
+                first_name = (form.cleaned_data['first_name'].lower()).capitalize()
+                last_name = (form.cleaned_data['last_name'].lower()).capitalize()
+                email = form.cleaned_data['email'].lower()
                 username = form.cleaned_data['username'].lower()
                 password = form.cleaned_data['password']
 
@@ -77,22 +107,6 @@ def verify_user(request):
 
 
 # Home page for logged in users
-'''class BlogView(LoginRequiredMixin, FormView, ListView):
-    login_url = 'verify_user'
-    redirect_field_name = 'home'
-    model = Blog
-    context_object_name = 'all_blog'
-    template_name = 'home.html'
-    form_class = AddBlog
-
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        user = User.objects.filter(username=self.request.user).first()
-        form.instance.author_fn = user.first_name+' '+user.last_name
-        form.save()
-        return redirect('home')
-'''
-
 
 class BlogView(LoginRequiredMixin, View):
     login_url = 'verify_user'
@@ -101,7 +115,15 @@ class BlogView(LoginRequiredMixin, View):
 
     def get(self, request):
         data = Blog.objects.all()
-        form = SearchForm()
+        form = {'searchForm': SearchForm(), 'addBlog': AddBlog()}
+        if data is not None:
+            for d in data:
+                if d.image is not None:
+                    im = Image.open(d.image)
+                    thumb_width = 640
+                    im_thumb = expand2square(im, (0, 0, 0)).resize((thumb_width, thumb_width), Image.LANCZOS)
+                    loc = 'media/' + str(d.image)
+                    im_thumb.save(loc)
         return render(request, 'home.html', {'data': data, 'form': form})
 
     def post(self, request):
@@ -114,22 +136,13 @@ class BlogView(LoginRequiredMixin, View):
             else:
                 messages.error(request, 'Wrong Password! Try again')
                 return redirect('home')
-
-
-import glob
-from PIL import Image, ImageDraw, ImageFilter
-
-
-def crop_center(pil_img, crop_width, crop_height):
-    img_width, img_height = pil_img.size
-    return pil_img.crop(((img_width - crop_width) // 2,
-                         (img_height - crop_height) // 2,
-                         (img_width + crop_width) // 2,
-                         (img_height + crop_height) // 2))
-
-
-def crop_max_square(pil_img):
-    return crop_center(pil_img, min(pil_img.size), min(pil_img.size))
+        else:
+            form = AddBlog(request.POST, request.FILES)
+            if form.is_valid():
+                form.instance.author = request.user
+                form.instance.author_fn = request.user.first_name + " " + request.user.last_name
+                form.save()
+                return redirect('home')
 
 
 # complete profile
@@ -141,15 +154,16 @@ class GeneralDetails(LoginRequiredMixin, View):
 
     def get(self, request):
         data = UserCompleteProfile.objects.filter(user=self.request.user).first()
-        im = Image.open(data.profile_picture)
-        thumb_width = 320
-        im_thumb = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
-        loc = 'media/' + str(data.profile_picture)
-        print(loc)
-        im_thumb.save(loc)
         links = Link.objects.filter(user=self.request.user).all()
         educations = Education.objects.filter(user=self.request.user).all()
         projects = Project.objects.filter(user=self.request.user).all()
+        if data:
+            if data.profile_picture:
+                im = Image.open(data.profile_picture)
+                thumb_width = 320
+                im_thumb = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
+                loc = 'media/' + str(data.profile_picture)
+                im_thumb.save(loc)
         form = {}
         if data is not None:
             form['form1'] = CompleteUserForm(instance=data)
@@ -164,15 +178,11 @@ class GeneralDetails(LoginRequiredMixin, View):
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'form1':
-            form1 = CompleteUserForm(request.POST, request.FILES)
+            data = UserCompleteProfile.objects.filter(user=self.request.user).first()
+            form1 = CompleteUserForm(request.POST, request.FILES, instance=data)
             form1.instance.user = self.request.user
             if form1.is_valid():
-                user = UserCompleteProfile.objects.filter(user=self.request.user).first()
-                if user is not None:
-                    UserCompleteProfile.objects.filter(user=self.request.user).delete()
-                    form1.save()
-                else:
-                    form1.save()
+                form1.save()
                 return redirect('user_profile')
             else:
                 pass

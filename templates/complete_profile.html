@@ -17,18 +17,30 @@
         Profile
     </h1>
     <div>
+        <div>
+            Name : {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div>
+            Email : {{ user.email }}
+        </div>
+    </div>
+    <div>
         {% if data %}
+
             <div>
-                Name : {{ data.user }}
+                Username : {{ data.user }}
             </div>
             <div>
                 Data of Birth: {{ data.dob }}
             </div>
             <div>
+                Phone no : {{ data.phone_no }}
+            </div>
+            <div>
                 About: {{ data.about }}
             </div>
             <div>
-                <img src="media/{{ data.profile_picture }}"style="border-radius:50%;object-fit: cover">
+                <img src="media/{{ data.profile_picture }}" style="border-radius:50%;object-fit: cover">
             </div>
         {% endif %}
     </div>
@@ -181,15 +193,15 @@
     <div>
         {% if projects %}
             {% for project in projects %}
-            <div>
-                Name : {{ project.project_name }}
-            </div>
-            <div>
-                Description : {{ project.project_desc }}
-            </div>
-            <div>
-                Link to Github/BitBucket : {{ project.project_link }}
-            </div>
+                <div>
+                    Name : {{ project.project_name }}
+                </div>
+                <div>
+                    Description : {{ project.project_desc }}
+                </div>
+                <div>
+                    Link to Github/BitBucket : {{ project.project_link }}
+                </div>
             {% endfor %}
         {% else %}
             <h3>No Projects</h3>

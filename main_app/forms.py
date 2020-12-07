@@ -24,11 +24,11 @@ class NewUserForm(forms.Form):
                                         'placeholder': 'eg : abc@gmail.com',
                                         'type': 'email'}))
 
-    username = forms.CharField(max_length=20, min_length=7, required=True,
-                               widget=forms.TextInput(
-                                   attrs={'class': 'form-control', 'id': 'username-field',
-                                          'placeholder': 'eg : iamelon',
-                                          'type': 'text'}))
+    enrollment_no = forms.RegexField(regex='(0187[a-zA-Z]{2}[0-9]{6})', required=True,
+                                     widget=forms.TextInput(
+                                         attrs={'class': 'form-control', 'id': 'username-field',
+                                                'placeholder': 'eg : 0187cs181114',
+                                                'type': 'text'}))
 
     password = forms.RegexField(required=True, regex='^(?=.*\d)(?=.*[a-z,A-Z])(?=.*[a-zA-Z]).{7,}$',
                                 error_messages=my_error_message,
@@ -57,7 +57,7 @@ class CompleteUserForm(ModelForm):
     class Meta:
         model = UserCompleteProfile
         fields = [
-            'about', 'dob', 'profile_picture'
+            'about', 'dob', 'profile_picture', 'phone_no'
         ]
         widgets = {
             'dob': forms.TextInput(attrs={'type': 'date'})
@@ -101,4 +101,5 @@ class EducationForm(ModelForm):
 
 
 class SearchForm(forms.Form):
-    search = forms.CharField(max_length=15, required=True)
+    search = forms.CharField(max_length=15, required=True,
+                             widget=forms.TextInput(attrs={'id': 'search_bar_input', 'placeholder': 'search'}))

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
     <style>
@@ -24,7 +25,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgba(240, 240, 240, .80);
+            background-color: rgba(240, 240, 240, .90);
             position: fixed;
             top: 0;
             left: 0;
@@ -49,6 +50,21 @@
                 x.type = "password";
             }
         }
+
+        function Copy() {
+
+            var copyText = document.getElementById("myInput");
+
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+
+            document.execCommand("copy");
+
+            /* Alert the copied text */
+            alert("Link Copied !!! ");
+        }
     </script>
 </head>
 <body>
@@ -58,25 +74,44 @@
 </div>
 <nav class="navbar navbar-light bg-light shadow-lg">
     <div class="container-fluid">
-        <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
-            <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
-            MyFolio
-        </a>
-        <div class="fullnavBtn mt-4" id="toggle">
-            <span class="top"></span>
-            <span class="middle"></span>
-            <span class="bottom"></span>
+        <div class="row">
+            <div id="logo_div" class="col-2">
+                <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
+                    <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
+                    MyFolio
+                </a>
+            </div>
+            <div id="search_div" class="col-8">
+                <form method="post" id='search'>
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="search">
+                    {{ form.searchForm.search }}
+                    <button class="btn">
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd"
+                                  d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <div class="fullnavBtn mt-4 col-2" id="toggle">
+                <span class="top"></span>
+                <span class="middle"></span>
+                <span class="bottom"></span>
+            </div>
+            <div class="fullnav mr-4" id="fullnav">
+                <nav class="fullnavMenu mr-4">
+                    <ul>
+                        <li><a href="{% url 'user_profile' %}">Edit Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-        <div class="fullnav mr-4" id="fullnav">
-            <nav class="fullnavMenu mr-4">
-                <ul>
-                    <li><a href="{% url 'user_profile' %}">Edit Profile</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-
     </div>
 </nav>
 <div class="extra-space mb-4">
@@ -106,7 +141,7 @@
                     <div class="modal-body">
                         <form method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            {{ form.addBlog.as_p }}
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </form>
@@ -114,14 +149,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div>
-        <form method="post" id='search'>
-            {% csrf_token %}
-            <input type="hidden" name="form_type" value="search">
-            {{ form.as_p }}
-            <button type="submit">Search</button>
-        </form>
     </div>
     {% if form.errors %}
         {% for key,values in form.errors.items %}
@@ -132,29 +159,48 @@
         {% endfor %}
     {% endif %}
     <!-- Card -->
-    {% if all_blog %}
-        {% for blog in all_blog reversed %}
+    {% if data %}
+        {% for d in data reversed %}
             <div class="row">
                 <div class="col-12 card-container mb-2">
                     <div
-                            class="card shadow bg-light text-dark" id="card"
+                            class="card shadow bg-light text-dark blogs"
                     >
-                        <div class="card-header">
-                            <a class="h5 card-title text-dark"
-                               href="http://127.0.0.1:8000/profile/{{ blog.author }}">{{ blog.author_fn }}</a>
-                        </div>
-                        <div class="card-body">
-                            {% if blog.image %}
-                                <img src="media/{{ blog.image }}" class="card-img-top" alt=""/>
-                            {% endif %}
-                        </div>
-                        <div class="card-footer">
-                            <p class="card-text">
-                                {{ blog.description }}
-                            </p>
-                            <p class="card-text">
-                                <small class="text-muted">created at {{ blog.created_at|date:'M D, H:i' }}hr</small>
-                            </p>
+                        <div class="card-body row">
+                            <div class="col-10">
+                                <a class="card-title text-dark h5"
+                                   href="http://127.0.0.1:8000/profile/{{ d.author }}">{{ d.author_fn }}
+                                </a>
+                            </div>
+                            <div class="col-2">
+                                <input type="text" type='hidden' class="d-none"
+                                       value="http://127.0.0.1:8000/post/{{ d.blog_id }}" id="myInput">
+                                <button onclick="Copy()" class="copy-btn">
+                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-clipboard"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-text">
+                                    <small class="text-muted"><strong>Uploaded
+                                        at</strong> {{ d.created_at|date:'h:i, M D' }}</small>
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <p class="card-text desc">
+                                    {{ d.description }}
+                                </p>
+                            </div>
+                            <div class="col-12 image">
+                                {% if d.image %}
+                                    <img src="media/{{ d.image }}" class="card-img-top" alt=""/>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
