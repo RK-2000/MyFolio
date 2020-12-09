@@ -17,7 +17,7 @@
         .background {
             z-index: -1;
             position: fixed;
-            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
+            background: url({% static 'main_app\img\bg.png' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
             width: 100%;
@@ -25,7 +25,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgba(240, 240, 240, .90);
+            background-color: rgb(243, 242, 239,.80);
             position: fixed;
             top: 0;
             left: 0;
@@ -54,15 +54,11 @@
         function Copy() {
 
             var copyText = document.getElementById("myInput");
-
-
             copyText.select();
             copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
-
             document.execCommand("copy");
 
-            /* Alert the copied text */
             alert("Link Copied !!! ");
         }
     </script>
@@ -86,7 +82,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="form_type" value="search">
                     {{ form.searchForm.search }}
-                    <button class="btn">
+                    <button type="button" class="btn">
                         <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -121,7 +117,7 @@
         <div class="card bg-light col-12 col-md-10 mb-3">
             <div class="card-body">
                 <h5 class="card-title">Add Blog</h5>
-                <p class="card-text ">What's on your mind??.</p>
+                <p class="card-text ">What's on your mind?</p>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Add Post
                 </button>
@@ -175,7 +171,7 @@
                             <div class="col-2">
                                 <input type="text" type='hidden' class="d-none"
                                        value="http://127.0.0.1:8000/post/{{ d.blog_id }}" id="myInput">
-                                <button onclick="Copy()" class="copy-btn">
+                                <button onclick="Copy()" class="copy-btn btn">
                                     <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-clipboard"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"

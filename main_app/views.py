@@ -157,6 +157,7 @@ class GeneralDetails(LoginRequiredMixin, View):
         links = Link.objects.filter(user=self.request.user).all()
         educations = Education.objects.filter(user=self.request.user).all()
         projects = Project.objects.filter(user=self.request.user).all()
+
         if data:
             if data.profile_picture:
                 im = Image.open(data.profile_picture)

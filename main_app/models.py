@@ -14,12 +14,18 @@ class Blog(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='images/blog_images/')
 
 
+class Skill(models.Model):
+    skill_id = models.AutoField(primary_key=True)
+    skill_name = models.CharField(max_length=40, blank=False, null=False)
+
+
 class UserCompleteProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     dob = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(blank=True, null=True, upload_to='images/profile_pictures/')
     about = models.TextField(blank=True, null=True)
-    phone_no = models.CharField(max_length=10,blank=True,null=True)
+    phone_no = models.CharField(max_length=10, blank=True, null=True)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Link(models.Model):
@@ -45,3 +51,15 @@ class Education(models.Model):
     start_year = models.DateField(blank=False, null=False)
     end_year = models.DateField(blank=True, null=True)
     grade = models.CharField(max_length=10, blank=True, null=True)
+
+
+class Interest(models.Model):
+    interest_id = models.AutoField(primary_key=True)
+    interest = models.CharField(max_length=50, blank=False, null=False)
+
+
+class Certifications(models.Model):
+    certificate_id = models.AutoField(primary_key=True)
+    certificate_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    certificate_name = models.CharField(max_length=40, blank=False, null=False)
+    certificate_auth_id = models.CharField(max_length=60, blank=False, null=False)
