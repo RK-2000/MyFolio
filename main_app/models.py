@@ -25,7 +25,6 @@ class UserCompleteProfile(models.Model):
     profile_picture = models.ImageField(blank=True, null=True, upload_to='images/profile_pictures/')
     about = models.TextField(blank=True, null=True)
     phone_no = models.CharField(max_length=10, blank=True, null=True)
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, blank=True, null=True)
 
 
 class Link(models.Model):

@@ -17,7 +17,7 @@
         .background {
             z-index: -1;
             position: fixed;
-            background: url({% static 'main_app\img\bg.png' %}) 50% fixed no-repeat;
+            background: url({% static 'main_app\img\d2.png' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
             width: 100%;
@@ -52,14 +52,18 @@
         }
 
         function Copy() {
-
+            /* Get the text field */
             var copyText = document.getElementById("myInput");
+
+            /* Select the text field */
             copyText.select();
             copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 
+            /* Copy the text inside the text field */
             document.execCommand("copy");
 
-            alert("Link Copied !!! ");
+            /* Alert the copied text */
+            alert("Copied the text: " + copyText.value);
         }
     </script>
 </head>
