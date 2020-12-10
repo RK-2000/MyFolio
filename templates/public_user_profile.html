@@ -1,73 +1,288 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ user_details.user }}</title>
+    <title>MyFolio - {{ user.first_name }} {{ user.last_name }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#toggle").click(function () {
+                $(this).toggleClass("active");
+                $("#fullnav").toggleClass("open");
+            });
+        });
+    </script>
+    <style>
+        .background {
+            z-index: -1;
+            position: fixed;
+            background: url({% static 'main_app\img\d2.png' %}) 50% fixed no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .background-cover {
+            z-index: -1;
+            background-color: rgb(243, 242, 239, .80);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
+<div class="background">
+</div>
+<div class="background-cover">
+</div>
+<nav class="navbar navbar-light bg-light shadow-lg">
+    <div class="container-fluid">
+        <div class="row">
+            <div id="logo_div" class="col-2">
+                <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
+                    <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo" width="30px">
+                    MyFolio
+                </a>
+            </div>
+            <div class="fullnavBtn mt-4 col-2" id="toggle">
+                <span class="top"></span>
+                <span class="middle"></span>
+                <span class="bottom"></span>
+            </div>
+            <div class="fullnav mr-4" id="fullnav">
+                <nav class="fullnavMenu mr-4">
+                    <ul>
+                        <li><a href="{% url 'user_profile' %}">Edit Profile</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</nav>
 <main class="container">
-    <!-- Personal Details -->
-    <div>
-        <h2>Details</h2>
-        Name : {{ user.first_name }} {{ user.last_name }}
-        <br>
-        Email : {{ user.email }}
-        <br>
-        Date of Birth : {{ user_details.dob }}
+    <!-- Profile -->
+    <div class="row complete-profile" id="about">
+        <div class="h1 col-12">
+            {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div class="col-12 col-md-6" id="about-pic">
+            {% if data.profile_picture %}
+                <div>
+                    <img src="/media/{{ data.profile_picture }}" id="profile-image">
+                </div>
+            {% else %}
+                <div>
+                    <img src="https://dailygrafix.com/wp-content/uploads/2019/03/ee.png" width="320px"
+                         id="profile-image">
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-6" id="about-text">
+
+            <div class="field-data">
+                <a>
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-envelope" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
+                    </svg>
+                </a>
+                {{ user.email }}
+            </div>
+            {% if data %}
+                <div class="field-data">
+                    <a>
+                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd"
+                                  d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                        </svg>
+                    </a> {{ user.username }}
+                </div>
+                <div class="field-data">
+                    {% if data.dob %}
+                        <a>
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-calendar-check"
+                                 fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                <path fill-rule="evenodd"
+                                      d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+                        {{ data.dob }}
+                    {% endif %}
+                </div>
+                <div class="field-data">
+                    {% if data.phone_no %}
+                        <a>
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-telephone"
+                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                        </a>
+                        {{ data.phone_no }}
+                    {% endif %}
+                </div>
+                <div>
+                    <hr>
+                </div>
+                <div class="field-data">
+                    {% if data.about %}
+                        <a>
+                            <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-square"
+                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path fill-rule="evenodd"
+                                      d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                <circle cx="8" cy="4.5" r="1"/>
+                            </svg>
+                        </a>
+                        {{ data.about }}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <div>
-        About : {{ user_details.about }}
-        <br>
-        <img src="media/{{ user_details.profile_picture }}"
-        <br>
+    <!-- Skills -->
+    {% if skills %}
+
+        <div class="row complete-profile" id="public-profiles">
+            <h3 class="font-weight-normal">
+                Skills
+            </h3>
+            <div class="col-12">
+                <br>
+                {% if skills %}
+                    {% for skill in skills %}
+                        <div class="row">
+                            <div class="row skill align-item-center">
+                                <div class="col-6">{{ skill.skill }}
+                                </div>
+                                <div class="col-6">{{ skill.expertise }}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class=" col-12">
+                        Add your skills to make your profile even more interesting !!!.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <!-- Links -->
+    {% if links %}
+    <div class="row complete-profile" id="public-profiles">
+        <h3 class="font-weight-normal">
+            Public accounts and URLs
+        </h3>
+        <div class="col-12">
+            <br>
+            {% if links %}
+                {% for link in links %}
+                    <div class="row">
+                        <div class="col-12 accounts">
+                            <a class="text-dark" href="{{ link.link }}">{{ link.name }}</a>
+                        </div>
+                    </div>
+                    <div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class=" col-12">
+                    Add some links to make your profile even more amazing ❤!!!.
+                </div>
+            {% endif %}
+        </div>
     </div>
-    <!-- Other Links -->
-    <div>
-        {% if links %}
-            {% for link in links %}
-                <h2>Other Profiles</h2>
-                <a href="{{ link.link }}">{{ link.name }}</a>
-            {% endfor %}
-        {% else %}
-        {% endif %}
-    </div>
+    {%  endif %}
     <!-- Education -->
-    <div>
-        {% if education %}
-            {% for edu in education %}
-                <h2>Education</h2>
-                School Name : {{ edu.school_name }}
-                <br>
-                Degree : {{ edu.degree }}
-                <br>
-                Start Year : {{ edu.start_year }}
-                <br>
-                End Year : {{ edu.end_year }}
-                <br>
-                Grade : {{ edu.grade }}
-            {% endfor %}
-        {% else %}
-            No education
-        {% endif %}
+    {% if educations %}
+    <div class="row complete-profile" id="education">
+        <h3 class="font-weight-normal">
+            Education
+        </h3>
+        <div class="col-12">
+            <br>
+            {% if educations %}
+                {% for edu in educations %}
+                    <div>
+                        <div class="school-name h5">
+                            {{ edu.school_name }}
+                        </div>
+                        <div class="degree">
+                            {{ edu.degree }}
+                        </div>
+                        <div>
+                            {{ edu.start_year }} <--> {{ edu.end_year }}
+                        </div>
+                        <div>
+                            Grade {{ edu.grade }}
+                        </div>
+                    </div>
+                    <div>
+                        <hr>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <a>We would love to know about your qualifications📚</a>
+            {% endif %}
+        </div>
     </div>
-    <!--Projects-->
-    <div>
-        {% if projects %}
-            {% for project in projects %}
-                <h2>Projects</h2>
-                Project Name : {{ project.project_name }}
-                <br>
-                Project Description : {{ project.project_desc }}
-                <br>
-                Project Link : {{ project.project_link }}
-            {% endfor %}
-        {% else %}
-            No Projects
-        {% endif %}
+    {% endif %}
+    <!-- Projects -->
+    {% if projects %}
+    <div class="row complete-profile">
+        <h3 class="font-weight-normal">
+            Projects
+        </h3>
+        <div class="col-12">
+            {% if projects %}
+                {% for project in projects %}
+                    <div>
+                        Name : {{ project.project_name }}
+                    </div>
+                    <div>
+                        Description : {{ project.project_desc }}
+                    </div>
+                    <div>
+                        Link to Github/BitBucket : {{ project.project_link }}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <a>No projects made yet? Now is the time to hustle!</a>
+            {% endif %}
+        </div>
     </div>
+    {% endif %}
+
 </main>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

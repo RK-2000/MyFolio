@@ -57,7 +57,7 @@ def new_account(request):
                 first_name = (form.cleaned_data['first_name'].lower()).capitalize()
                 last_name = (form.cleaned_data['last_name'].lower()).capitalize()
                 email = form.cleaned_data['email'].lower()
-                username = form.cleaned_data['username'].lower()
+                username = form.cleaned_data['enrollment_no'].lower()
                 password = form.cleaned_data['password']
 
                 if User.objects.all().filter(email=email).first() is None and User.objects.all().filter(
@@ -130,12 +130,7 @@ class BlogView(LoginRequiredMixin, View):
         if self.request.POST.get('form_type') == 'search':
             form = SearchForm(request.POST)
             search = (form['search'].value()).lower()
-            user_searched = User.objects.filter(username=search).first()
-            if user_searched != 'None':
-                return redirect('public_profile', **{'name': user_searched.username})
-            else:
-                messages.error(request, 'Wrong Password! Try again')
-                return redirect('home')
+            return redirect(search_result, **{'search': search})
         else:
             form = AddBlog(request.POST, request.FILES)
             if form.is_valid():
@@ -143,6 +138,42 @@ class BlogView(LoginRequiredMixin, View):
                 form.instance.author_fn = request.user.first_name + " " + request.user.last_name
                 form.save()
                 return redirect('home')
+
+
+# search result
+def search_result(request, search):
+    if request.user.is_authenticated:
+        data = {}
+        if re.search('(0187[a-zA-Z]{2}[0-9]{6})', search):
+            d = User.objects.filter(username=search).first()
+            data['by_user'] = d
+        else:
+            skill = None
+            skill = Skill.objects.filter(skill_name=search).first()
+            search = (search.lower()).capitalize()
+            print(search)
+            p = []
+            if skill is not None:
+                print(skill)
+                d = UserSkills.objects.filter(skill_id=skill.skill_id).all()
+                for d1 in d:
+                    p.append(User.objects.filter(username=d1.user).first())
+                data['by_skill'] = p
+            else:
+                if User.objects.filter(first_name=search).first():
+                    d = User.objects.filter(first_name=search).all()
+                    print(d)
+                    data['by_f_name'] = d
+                elif User.objects.filter(last_name=search).first():
+                    d = User.objects.filter(last_name=search).all()
+
+                    data['l_name'] = d
+        count = 1
+        for d in data:
+            count = count + 1
+        return render(request, 'search_result.html', {'data': data,'count':count})
+    else:
+        return redirect('verify_user')
 
 
 # complete profile
@@ -157,7 +188,14 @@ class GeneralDetails(LoginRequiredMixin, View):
         links = Link.objects.filter(user=self.request.user).all()
         educations = Education.objects.filter(user=self.request.user).all()
         projects = Project.objects.filter(user=self.request.user).all()
-
+        skills = UserSkills.objects.filter(user=self.request.user).all()
+        stars = []
+        if skills is not None:
+            for skill in skills:
+                star = []
+                for i in range(0, int(skill.expertise)):
+                    star.append('*')
+                stars.append(star)
         if data:
             if data.profile_picture:
                 im = Image.open(data.profile_picture)
@@ -174,8 +212,11 @@ class GeneralDetails(LoginRequiredMixin, View):
         form['form2'] = LinksForm()
         form['form3'] = EducationForm()
         form['form4'] = ProjectsForm()
+        form['form5'] = SkillsForm()
         return render(request, 'complete_profile.html',
-                      {'data': data, 'links': links, 'educations': educations, 'projects': projects, 'form': form})
+                      {'data': data, 'links': links, 'educations': educations, 'projects': projects, 'stars': stars,
+                       'skills': skills,
+                       'form': form})
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'form1':
@@ -227,6 +268,12 @@ class GeneralDetails(LoginRequiredMixin, View):
             else:
                 pass
                 return redirect('user_profile')
+        elif self.request.POST.get('form_type') == 'form5':
+            form5 = SkillsForm(request.POST)
+            form5.instance.user = self.request.user
+            if form5.is_valid():
+                form5.save()
+                return redirect('user_profile')
 
 
 # Show public profile
@@ -234,17 +281,26 @@ class GeneralDetails(LoginRequiredMixin, View):
 def public_profile(request, name):
     user = User.objects.filter(username=name).first()
     if request.user.is_authenticated:
-        user_details = UserCompleteProfile.objects.filter(user=user).first()
+        data = UserCompleteProfile.objects.filter(user=user).first()
+        if data:
+            if data.profile_picture:
+                im = Image.open(data.profile_picture)
+                thumb_width = 320
+                im_thumb = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
+                loc = 'media/' + str(data.profile_picture)
+                im_thumb.save(loc)
         links = Link.objects.filter(user=user).all()
         projects = Project.objects.filter(user=user).all()
         education = Education.objects.filter(user=user).all()
+        skills = UserSkills.objects.filter(user=user).all()
 
         return render(request, 'public_user_profile.html', {
             'user': user,
-            'user_details': user_details,
+            'data': data,
             'links': links,
             'projects': projects,
-            'education': education
+            'educations': education,
+            'skills': skills
         })
     else:
         return redirect('verify_user')

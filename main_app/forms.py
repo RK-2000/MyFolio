@@ -6,6 +6,7 @@ my_error_message = {
     'invalid': ' Password should have 7 letters,a digit and a symbol ',
     'required': 'This field is required'
 }
+CHOICES = ['1', '2', '3', '4', '5']
 
 
 class NewUserForm(forms.Form):
@@ -103,3 +104,11 @@ class EducationForm(ModelForm):
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=15, required=True,
                              widget=forms.TextInput(attrs={'id': 'search_bar_input', 'placeholder': 'search'}))
+
+
+class SkillsForm(ModelForm):
+    class Meta:
+        model = UserSkills
+        fields = [
+            'skill', 'expertise'
+        ]

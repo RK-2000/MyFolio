@@ -1,13 +1,12 @@
-body {
-    background-color: #F3F2EF;
-}
 
 .h1 {
     font-family: "Google Sans Display";
     font-weight: lighter;
     text-align: center;
 }
-
+#logo-name{
+    font-family: Quicksand;
+}
 #profile-image {
     border-radius: 50%;
     border: whitesmoke solid 4px;

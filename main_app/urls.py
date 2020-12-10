@@ -1,7 +1,8 @@
 """MyFolio URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+    https:
+    //docs.djangoproject.com/en/3.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -26,5 +27,6 @@ urlpatterns = [
     path('login', views.verify_user, name='verify_user'),
     path('logout_user', views.logout_user, name='logout_user'),
     path('profile/<slug:name>/', views.public_profile, name='public_profile'),
-    path('post/<slug:post_id>',views.public_post,name='public_post')
+    path('post/<slug:post_id>', views.public_post, name='public_post'),
+    path('search/<slug:search>', views.search_result, name='search_results')
 ]

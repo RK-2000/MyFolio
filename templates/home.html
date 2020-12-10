@@ -25,7 +25,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgb(243, 242, 239,.80);
+            background-color: rgb(243, 242, 239, .80);
             position: fixed;
             top: 0;
             left: 0;
@@ -72,31 +72,34 @@
 </div>
 <div class="background-cover">
 </div>
-<nav class="navbar navbar-light bg-light shadow-lg">
+<nav class="navbar navbar-light bg-light justify-content-between">
     <div class="container-fluid">
-        <div class="row">
-            <div id="logo_div" class="col-2">
-                <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
-                    <img src="{% static 'main_app/img/Group 2.png' %}" class="navbar-brand" id="logo" width="40px">
-                    MyFolio
-                </a>
-            </div>
-            <div id="search_div" class="col-8">
-                <form method="post" id='search'>
-                    {% csrf_token %}
-                    <input type="hidden" name="form_type" value="search">
-                    {{ form.searchForm.search }}
-                    <button type="button" class="btn">
-                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                            <path fill-rule="evenodd"
-                                  d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-                        </svg>
-                    </button>
-                </form>
-            </div>
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand"
+                 id="logo" width="30px">
+            MyFolio
+        </a>
+        <div>
+            <form class="navbar-form navbar-search-form active" role="search" method="POST">
+                <div class="form-group">
+                    <div class="input-group">
+                        {% csrf_token %}
+                        {{ form.searchForm.search }}
+                        <input type="hidden" name='form_type' value="search">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><svg width="1.5em" height="1.5em"
+                                                                           viewBox="0 0 16 16"
+                                                                           class="bi bi-search" fill="currentColor"
+                                                                           xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd"
+        d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+  <path fill-rule="evenodd"
+        d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+</svg></button>
+                        </span>
+                    </div>
+                </div>
+            </form>
             <div class="fullnavBtn mt-4 col-2" id="toggle">
                 <span class="top"></span>
                 <span class="middle"></span>
@@ -106,7 +109,6 @@
                 <nav class="fullnavMenu mr-4">
                     <ul>
                         <li><a href="{% url 'user_profile' %}">Edit Profile</a></li>
-                        <li><a href="#">Help</a></li>
                         <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
                     </ul>
                 </nav>
@@ -114,6 +116,7 @@
         </div>
     </div>
 </nav>
+
 <div class="extra-space mb-4">
 </div>
 <main class="container">

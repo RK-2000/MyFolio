@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 # Create your models here.
+
+CHOICES = [('1', '2'),
+           ('3', '4', '5')]
+
 
 class Blog(models.Model):
     blog_id = models.AutoField(primary_key=True)
@@ -18,6 +21,9 @@ class Skill(models.Model):
     skill_id = models.AutoField(primary_key=True)
     skill_name = models.CharField(max_length=40, blank=False, null=False)
 
+    def __str__(self):
+        return self.skill_name
+
 
 class UserCompleteProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -32,6 +38,14 @@ class Link(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, blank=False, null=False)
     link = models.URLField(blank=False, null=False)
+
+
+class UserSkills(models.Model):
+    CHOICES = ((0, 'Low'), (1, 'Normal'), (2, 'High'),
+               )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+    expertise = models.IntegerField(default=0, choices=CHOICES)
 
 
 class Project(models.Model):

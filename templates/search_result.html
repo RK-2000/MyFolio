@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Result</title>
+</head>
+<body>
+<header>
+    <h1> Search Result</h1>
+</header>
+<main>
+<!-- By Username-->
+{% if data.by_user %}
+        We got {{ count }} students matching this enrollment number
+        <hr>
+    {% for p in data.by_user %}
+        <br>
+        <div>
+            <a href="{% url 'public_profile' d.username %}">
+                <strong>{{ p.username }}</strong>
+                <br>
+                {{ p.first_name }} {{ p.last_name }}
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+<!-- By First name-->
+{% if data.by_f_name %}
+    We got {{ count }} students matching these first name
+    <hr>
+    {% for p in data.by_f_name %}
+        <br>
+        <div>
+            <a href="{% url 'public_profile' p.username %}">
+                <strong>{{ p.username }}</strong>
+                <br>
+                {{ p.first_name }} {{ p.last_name }}
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!--By Last Name-->
+{% if data.l_name %}
+    We got {{ count }} students matching these last name
+    <hr>
+    {% for p in data.l_name %}
+        <br>
+        <div>
+            <a href="{% url 'public_profile' p.username %}">
+                <strong>{{ p.username }}</strong>
+                <br>
+                {{ p.first_name }} {{ p.last_name }}
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+<!-- By Skills -->
+
+{% if data.by_skill %}
+    We got {{ count }} students matching these requirements
+    <hr>
+    {% for p in data.by_skill %}
+        <br>
+        <div>
+            <a href="{% url 'public_profile' p.username %}">
+                <strong>{{ p.username }}</strong>
+                <br>
+                {{ p.first_name }} {{ p.last_name }}
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}
+</main>
+</body>
+</html>
