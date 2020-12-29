@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +46,8 @@
 </div>
 <div class="background-cover">
 </div>
+<div class="extra-space mb-4">
+</div>
 <nav class="navbar navbar-light bg-light shadow-lg">
     <div class="container-fluid">
         <div class="row">
@@ -55,16 +57,20 @@
                     MyFolio
                 </a>
             </div>
-            <div class="fullnavBtn mt-4 col-2" id="toggle">
-                <span class="top"></span>
-                <span class="middle"></span>
-                <span class="bottom"></span>
+            <div class="fullnavBtn mt-2 mr-2 col-2 " id="toggle">
+                {% if x.profile_picture %}
+                    <img src="media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
+                {% else %}
+                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
+                         style="border-radius: 50%;">
+                {% endif %}
+                <label class="small text-center">{{ user.first_name }}</label>
             </div>
             <div class="fullnav mr-4" id="fullnav">
                 <nav class="fullnavMenu mr-4">
                     <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'user_profile' %}">Edit Profile</a></li>
-                        <li><a href="#">Help</a></li>
                         <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
                     </ul>
                 </nav>
@@ -165,7 +171,6 @@
     </div>
     <!-- Skills -->
     {% if skills %}
-
         <div class="row complete-profile" id="public-profiles">
             <h3 class="font-weight-normal">
                 Skills
@@ -173,13 +178,52 @@
             <div class="col-12">
                 <br>
                 {% if skills %}
+                    <div class="row text-center">
+                        <div class="col-6 h4">
+                            Skill
+                        </div>
+                        <div class="col-6 h4">
+                            Expertise
+                        </div>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                    <div>
+                        <hr>
+                    </div>
                     {% for skill in skills %}
+                        <div class="container">
+                            <div class="skill row">
+                                <div class="col-6 text-center">{{ skill.skill }}
+                                </div>
+                                <div class="col-6 text-center">{% for i in skill.expertise|make_list %}
+                                    <img src="{% static "main_app/img/star.png" %}" width="30px">
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <!-- Links -->
+    {% if links %}
+        <div class="row complete-profile" id="public-profiles">
+            <h3 class="font-weight-normal">
+                Public accounts and URLs
+            </h3>
+            <div class="col-12">
+                <br>
+                {% if links %}
+                    {% for link in links %}
                         <div class="row">
-                            <div class="row skill align-item-center">
-                                <div class="col-6">{{ skill.skill }}
-                                </div>
-                                <div class="col-6">{{ skill.expertise }}
-                                </div>
+                            <div class="col-12 accounts">
+                                <a class="text-dark" href="{{ link.link }}">{{ link.name }}</a>
                             </div>
                         </div>
                         <div>
@@ -188,97 +232,81 @@
                     {% endfor %}
                 {% else %}
                     <div class=" col-12">
-                        Add your skills to make your profile even more interesting !!!.
+                        Add some links to make your profile even more amazing ❤!!!.
                     </div>
                 {% endif %}
             </div>
         </div>
     {% endif %}
-    <!-- Links -->
-    {% if links %}
-    <div class="row complete-profile" id="public-profiles">
-        <h3 class="font-weight-normal">
-            Public accounts and URLs
-        </h3>
-        <div class="col-12">
-            <br>
-            {% if links %}
-                {% for link in links %}
-                    <div class="row">
-                        <div class="col-12 accounts">
-                            <a class="text-dark" href="{{ link.link }}">{{ link.name }}</a>
-                        </div>
-                    </div>
-                    <div>
-                        <hr>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <div class=" col-12">
-                    Add some links to make your profile even more amazing ❤!!!.
-                </div>
-            {% endif %}
-        </div>
-    </div>
-    {%  endif %}
     <!-- Education -->
     {% if educations %}
-    <div class="row complete-profile" id="education">
-        <h3 class="font-weight-normal">
-            Education
-        </h3>
-        <div class="col-12">
-            <br>
-            {% if educations %}
-                {% for edu in educations %}
-                    <div>
-                        <div class="school-name h5">
-                            {{ edu.school_name }}
-                        </div>
-                        <div class="degree">
-                            {{ edu.degree }}
+        <div class="row complete-profile" id="education">
+            <h3 class="font-weight-normal">
+                Education
+            </h3>
+            <div class="col-12">
+                <br>
+                {% if educations %}
+                    {% for edu in educations %}
+                        <div class="text-center">
+                            <div class="school-name h5">
+                                {{ edu.school_name }}
+                            </div>
+                            <div class="degree">
+                                {{ edu.degree }}
+                            </div>
+                            <div>
+                                {{ edu.start_year }} <-->
+                                {% if edu.end_year %}
+                                    {{ edu.end_year }}
+                                {% else %}
+                                    OnGoing
+                                {% endif %}
+                            </div>
+                            <div>
+                                Grade : {{ edu.grade }}
+                            </div>
+                            <br>
                         </div>
                         <div>
-                            {{ edu.start_year }} <--> {{ edu.end_year }}
+                            <hr>
                         </div>
-                        <div>
-                            Grade {{ edu.grade }}
-                        </div>
-                    </div>
-                    <div>
-                        <hr>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <a>We would love to know about your qualifications📚</a>
-            {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
-    </div>
     {% endif %}
     <!-- Projects -->
     {% if projects %}
-    <div class="row complete-profile">
+        <div class="row complete-profile">
         <h3 class="font-weight-normal">
             Projects
         </h3>
-        <div class="col-12">
-            {% if projects %}
-                {% for project in projects %}
+        <div class="col-12 text-center">
+            <div>
+                <hr>
+            </div>
+            {% for project in projects %}
+                <div>
+                    <div class="h5">{{ project.project_name }}</div>
+                </div>
+                <br>
+                <div>
+                    <u class="h6">About Project</u>
+                    <br>
+                    {{ project.project_desc }}
+                </div>
+                {% if project.project_link %}
                     <div>
-                        Name : {{ project.project_name }}
+                        <a href="{{ project.project_link }}">Source Code / Hosted on</a>
                     </div>
-                    <div>
-                        Description : {{ project.project_desc }}
-                    </div>
-                    <div>
-                        Link to Github/BitBucket : {{ project.project_link }}
-                    </div>
-                {% endfor %}
-            {% else %}
-                <a>No projects made yet? Now is the time to hustle!</a>
-            {% endif %}
+                {% endif %}
+                <br>
+                <div>
+                    <hr>
+                </div>
+            {% endfor %}
         </div>
-    </div>
     {% endif %}
 
 </main>

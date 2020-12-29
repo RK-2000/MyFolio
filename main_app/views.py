@@ -7,9 +7,7 @@ from django.contrib import messages
 from main_app.models import *
 from django.views.generic import FormView, ListView, View
 import re
-# Functions
-
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image
 
 
 def crop_center(pil_img, crop_width, crop_height):
@@ -67,6 +65,7 @@ def new_account(request):
                                 username=username)
                     user.save()
                     print('Successful!!!')
+                    request.session.set_expiry(3600)
                     login(request, user)
                     return redirect('home')
                 else:
@@ -91,6 +90,7 @@ def verify_user(request):
                 if User.objects.all().filter(email=email).first() is not None:
                     user = User.objects.all().filter(email=email).first()
                     if user.password == password:
+                        request.session.set_expiry(3600)
                         login(request, user)
                         return redirect('home')
                     else:
@@ -115,6 +115,10 @@ class BlogView(LoginRequiredMixin, View):
 
     def get(self, request):
         data = Blog.objects.all()
+        u = UserCompleteProfile.objects.filter(user=request.user).first()
+        me = ''
+        if u is None:
+            me = 'Please Complete your profile'
         form = {'searchForm': SearchForm(), 'addBlog': AddBlog()}
         if data is not None:
             for d in data:
@@ -124,7 +128,7 @@ class BlogView(LoginRequiredMixin, View):
                     im_thumb = expand2square(im, (0, 0, 0)).resize((thumb_width, thumb_width), Image.LANCZOS)
                     loc = 'media/' + str(d.image)
                     im_thumb.save(loc)
-        return render(request, 'home.html', {'data': data, 'form': form})
+        return render(request, 'home.html', {'data': data, 'form': form, 'me': me, 'u': u})
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'search':
@@ -144,9 +148,16 @@ class BlogView(LoginRequiredMixin, View):
 def search_result(request, search):
     if request.user.is_authenticated:
         data = {}
+        count = 0
+        profile_pictures = []
+        x = UserCompleteProfile.objects.filter(user=request.user).first()
         if re.search('(0187[a-zA-Z]{2}[0-9]{6})', search):
-            d = User.objects.filter(username=search).first()
-            data['by_user'] = d
+            d = User.objects.filter(username=search).all()
+            if d.exists():
+                data['by_user'] = d
+                count = 1
+            else:
+                data['by_user'] = None
         else:
             skill = None
             skill = Skill.objects.filter(skill_name=search).first()
@@ -158,20 +169,23 @@ def search_result(request, search):
                 d = UserSkills.objects.filter(skill_id=skill.skill_id).all()
                 for d1 in d:
                     p.append(User.objects.filter(username=d1.user).first())
+                    count = count + 1
+                    print(p)
                 data['by_skill'] = p
+                print(data["by_skill"])
             else:
                 if User.objects.filter(first_name=search).first():
                     d = User.objects.filter(first_name=search).all()
-                    print(d)
+                    for d1 in d:
+                        count = count + 1
                     data['by_f_name'] = d
                 elif User.objects.filter(last_name=search).first():
                     d = User.objects.filter(last_name=search).all()
-
+                    for d1 in d:
+                        count = count + 1
                     data['l_name'] = d
-        count = 1
-        for d in data:
-            count = count + 1
-        return render(request, 'search_result.html', {'data': data,'count':count})
+
+        return render(request, 'search_result.html', {'data': data, 'count': count, "images": profile_pictures, 'x': x})
     else:
         return redirect('verify_user')
 
@@ -189,6 +203,7 @@ class GeneralDetails(LoginRequiredMixin, View):
         educations = Education.objects.filter(user=self.request.user).all()
         projects = Project.objects.filter(user=self.request.user).all()
         skills = UserSkills.objects.filter(user=self.request.user).all()
+        blogs = Blog.objects.filter(author=self.request.user).all()
         stars = []
         if skills is not None:
             for skill in skills:
@@ -215,7 +230,7 @@ class GeneralDetails(LoginRequiredMixin, View):
         form['form5'] = SkillsForm()
         return render(request, 'complete_profile.html',
                       {'data': data, 'links': links, 'educations': educations, 'projects': projects, 'stars': stars,
-                       'skills': skills,
+                       'skills': skills, 'blogs': blogs,
                        'form': form})
 
     def post(self, request):
@@ -276,12 +291,60 @@ class GeneralDetails(LoginRequiredMixin, View):
                 return redirect('user_profile')
 
 
+# Delete Public Profile
+def delete_links(request, link_id):
+    if request.user.is_authenticated:
+        link = Link.objects.filter(link_id=link_id).first()
+        link.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('verify_user')
+
+
+def delete_skills(request, skill_id):
+    if request.user.is_authenticated:
+        skill = UserSkills.objects.filter(skill_user_id=skill_id).first()
+        skill.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('verify_user')
+
+
+def delete_edu(request, edu_id):
+    if request.user.is_authenticated:
+        print(edu_id)
+        edu = Education.objects.filter(edu_id=edu_id).first()
+        edu.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('verify_user')
+
+
+def delete_projects(request, pro_id):
+    if request.user.is_authenticated:
+        project = Project.objects.filter(project_id=pro_id)
+        project.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('verify_user')
+
+
+def delete_blogs(request, blog_id):
+    if request.user.is_authenticated:
+        blog = Blog.objects.filter(blog_id=blog_id).first()
+        blog.delete()
+        return redirect('user_profile')
+    else:
+        return redirect('verify_user')
+
+
 # Show public profile
 
 def public_profile(request, name):
-    user = User.objects.filter(username=name).first()
     if request.user.is_authenticated:
+        user = User.objects.filter(username=name).first()
         data = UserCompleteProfile.objects.filter(user=user).first()
+        x = UserCompleteProfile.objects.filter(user=request.user).first()
         if data:
             if data.profile_picture:
                 im = Image.open(data.profile_picture)
@@ -300,7 +363,8 @@ def public_profile(request, name):
             'links': links,
             'projects': projects,
             'educations': education,
-            'skills': skills
+            'skills': skills,
+            'x': x
         })
     else:
         return redirect('verify_user')

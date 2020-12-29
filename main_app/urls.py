@@ -18,6 +18,7 @@ Including another URLconf
 from django.urls import path
 from main_app import views
 from main_app.views import *
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.introduction_page, name='introduction'),
@@ -28,5 +29,20 @@ urlpatterns = [
     path('logout_user', views.logout_user, name='logout_user'),
     path('profile/<slug:name>/', views.public_profile, name='public_profile'),
     path('post/<slug:post_id>', views.public_post, name='public_post'),
-    path('search/<slug:search>', views.search_result, name='search_results')
+    path('search/<str:search>', views.search_result, name='search_results'),
+    path('user_profilee/<int:link_id>', views.delete_links, name='delete_links'),
+    path('user_profilei/<int:skill_id>', views.delete_skills, name='delete_skills'),
+    path('user_profileo/<int:edu_id>', views.delete_edu, name='delete_edu'),
+    path('user_profileu/<int:pro_id>', views.delete_projects, name='delete_projects'),
+    path('user_profilez/<int:blog_id>', views.delete_blogs, name='delete_blogs'),
+
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name="registration/password_reset_form.html"),
+         name='password_reset'),
+    path('password_reset/done/',
+         auth_views.PasswordResetDoneView.as_view(template_name="registration/password_reset_done.html"),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="registration/"),
+         name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
 ]

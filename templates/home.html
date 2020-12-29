@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
     <style>
         .background {
             z-index: -1;
@@ -65,6 +64,7 @@
             /* Alert the copied text */
             alert("Copied the text: " + copyText.value);
         }
+
     </script>
 </head>
 <body>
@@ -72,7 +72,13 @@
 </div>
 <div class="background-cover">
 </div>
-<nav class="navbar navbar-light bg-light justify-content-between">
+<script>
+    {% if me %}
+        alert('{{ me }}');
+        window.location.href = "{% url 'user_profile'%}";
+    {% endif %}
+</script>
+<nav class="navbar navbar-light bg-light justify-content-between shadow">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand"
@@ -100,11 +106,17 @@
                     </div>
                 </div>
             </form>
-            <div class="fullnavBtn mt-4 col-2" id="toggle">
-                <span class="top"></span>
-                <span class="middle"></span>
-                <span class="bottom"></span>
+
+            <div class="fullnavBtn mt-2 col-2" id="toggle">
+                {% if u.profile_picture %}
+                    <img src="media/{{ u.profile_picture }}" width="40px" style="border-radius: 50%;">
+                {% else %}
+                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
+                         style="border-radius: 50%;">
+                {% endif %}
+                <label class="small text-center text-center">{{ user.first_name }}</label>
             </div>
+
             <div class="fullnav mr-4" id="fullnav">
                 <nav class="fullnavMenu mr-4">
                     <ul>
@@ -113,6 +125,7 @@
                     </ul>
                 </nav>
             </div>
+
         </div>
     </div>
 </nav>
@@ -164,7 +177,7 @@
     <!-- Card -->
     {% if data %}
         {% for d in data reversed %}
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col-12 card-container mb-2">
                     <div
                             class="card shadow bg-light text-dark blogs"

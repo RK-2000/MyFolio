@@ -1,8 +1,8 @@
-flag = 1
-for i in input().split(','):
-    if i =='apsara':
-        print(flag)
-        break
-    flag+=1
+a = {}
+a = (1, 2, "rITIK")
+print(a)
+b = {}
+if id(a) == id(b):
+    print("yes", id(a), id(b))
 else:
-    print(-1)
+    print("No", id(a), id(b))

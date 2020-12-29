@@ -41,11 +41,12 @@ class Link(models.Model):
 
 
 class UserSkills(models.Model):
-    CHOICES = ((0, 'Low'), (1, 'Normal'), (2, 'High'),
+    skill_user_id = models.AutoField(primary_key=True)
+    CHOICES = (("1", 'Novice'), ('11', 'Moderate'), ('111', 'Proficient'), ('1111', 'Expert'),
                )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
-    expertise = models.IntegerField(default=0, choices=CHOICES)
+    expertise = models.CharField(default="1", max_length=4, choices=CHOICES)
 
 
 class Project(models.Model):
@@ -66,13 +67,9 @@ class Education(models.Model):
     grade = models.CharField(max_length=10, blank=True, null=True)
 
 
-class Interest(models.Model):
-    interest_id = models.AutoField(primary_key=True)
-    interest = models.CharField(max_length=50, blank=False, null=False)
-
-
-class Certifications(models.Model):
+class Certification(models.Model):
     certificate_id = models.AutoField(primary_key=True)
     certificate_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     certificate_name = models.CharField(max_length=40, blank=False, null=False)
-    certificate_auth_id = models.CharField(max_length=60, blank=False, null=False)
+    certificate_auth_id = models.CharField(max_length=60, blank=True, null=True)
+    certificate_picture = models.ImageField(blank=True, null=True, upload_to='images/certificates/')

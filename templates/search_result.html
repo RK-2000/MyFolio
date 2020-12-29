@@ -1,76 +1,210 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#toggle").click(function () {
+                $(this).toggleClass("active");
+                $("#fullnav").toggleClass("open");
+            });
+        });
+    </script>
+    <style>
+        .background {
+            z-index: -1;
+            position: fixed;
+            background: url({% static 'main_app\img\d2.png' %}) 50% fixed no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .background-cover {
+            z-index: -1;
+            background-color: rgb(243, 242, 239, .80);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"
+    ></script>
+
     <title>Search Result</title>
 </head>
 <body>
+<div class="background">
+</div>
+<div class="background-cover">
+</div>
+{% if user %}
+    <nav class="navbar navbar-light bg-light shadow-lg">
+        <div class="container-fluid">
+            <div class="row">
+                <div id="logo_div" class="col-2">
+                    <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
+                        <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo"
+                             width="30px">
+                        MyFolio
+                    </a>
+                </div>
+                <div class="fullnavBtn mt-2 mr-2 col-2 " id="toggle">
+                    {% if x.profile_picture %}
+                    <img src="media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
+                {% else %}
+                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
+                         style="border-radius: 50%;">
+                {% endif %}
+                    <label class="small text-center">{{ user.first_name }}</label>
+                </div>
+                <div class="fullnav mr-4" id="fullnav">
+                    <nav class="fullnavMenu mr-4">
+                        <ul>
+                            <li><a href="{% url 'home' %}">Home</a></li>
+                            <li><a href="#">Help</a></li>
+                            <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endif %}
+
 <header>
-    <h1> Search Result</h1>
+    <h1 class="text-center display-4"> Search Result</h1>
 </header>
 <main>
-<!-- By Username-->
-{% if data.by_user %}
-        We got {{ count }} students matching this enrollment number
-        <hr>
-    {% for p in data.by_user %}
-        <br>
-        <div>
-            <a href="{% url 'public_profile' d.username %}">
-                <strong>{{ p.username }}</strong>
+    {% if data %}
+        <!-- By Username-->
+        {% if data.by_user %}
+            <div class="text-center">
+                We got the student matching this enrollment number
+            </div>
+            <hr>
+            {% for p in data.by_user %}
                 <br>
-                {{ p.first_name }} {{ p.last_name }}
-            </a>
-        </div>
-    {% endfor %}
-{% endif %}
-<!-- By First name-->
-{% if data.by_f_name %}
-    We got {{ count }} students matching these first name
-    <hr>
-    {% for p in data.by_f_name %}
-        <br>
-        <div>
-            <a href="{% url 'public_profile' p.username %}">
-                <strong>{{ p.username }}</strong>
-                <br>
-                {{ p.first_name }} {{ p.last_name }}
-            </a>
-        </div>
-    {% endfor %}
-{% endif %}
+                <div
+                        class="row bg-light rounded"
+                        style="display: flex; text-align: center; font-size: large"
+                >
+                    <div class="text-center col-12">
+                        <a href="{% url 'public_profile' p.username %}">
+                            <div>{{ p.username }}
+                                <br>
+                                {{ p.first_name }} {{ p.last_name }}
+                            </div>
 
-<!--By Last Name-->
-{% if data.l_name %}
-    We got {{ count }} students matching these last name
-    <hr>
-    {% for p in data.l_name %}
-        <br>
-        <div>
-            <a href="{% url 'public_profile' p.username %}">
-                <strong>{{ p.username }}</strong>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- By First name-->
+        {% if data.by_f_name %}
+            We got {{ count }} students matching this name
+            <hr>
+            {% for p in data.by_f_name %}
                 <br>
-                {{ p.first_name }} {{ p.last_name }}
-            </a>
-        </div>
-    {% endfor %}
-{% endif %}
-<!-- By Skills -->
+                <div
+                        class="row bg-light rounded"
+                        style="display: flex; text-align: center; font-size: large"
+                >
+                    <div class="text-center col-12">
+                        <a href="{% url 'public_profile' p.username %}">
+                            <div>{{ p.username }}
+                                <br>
+                                {{ p.first_name }} {{ p.last_name }}
+                            </div>
 
-{% if data.by_skill %}
-    We got {{ count }} students matching these requirements
-    <hr>
-    {% for p in data.by_skill %}
-        <br>
-        <div>
-            <a href="{% url 'public_profile' p.username %}">
-                <strong>{{ p.username }}</strong>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!--By Last Name-->
+        {% if data.l_name %}
+            We got {{ count }} students matching these last name
+            <hr>
+            {% for p in data.l_name %}
                 <br>
-                {{ p.first_name }} {{ p.last_name }}
-            </a>
+                <div
+                        class="row bg-light rounded"
+                        style="display: flex; text-align: center; font-size: large"
+                >
+                    <div class="text-center col-12">
+                        <a href="{% url 'public_profile' p.username %}">
+                            <div>{{ p.username }}
+                                <br>
+                                {{ p.first_name }} {{ p.last_name }}
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- By Skills -->
+
+        {% if data.by_skill %}
+            <div class="text-center">
+                We got {{ count }} student/students matching these requirements
+            </div>
+            <hr>
+            {% for p in data.by_skill %}
+                <br>
+                <div
+                        class="row bg-light rounded"
+                        style="display: flex; text-align: center; font-size: large"
+                >
+                    <div class="text-center col-12">
+                        <a href="{% url 'public_profile' p.username %}">
+                            <div>{{ p.username }}
+                                <br>
+                                {{ p.first_name }} {{ p.last_name }}
+                            </div>
+
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        <div class="text-center">
+            Sorry we didn't found them. Maybe aliens took them.
         </div>
-    {% endfor %}
-{% endif %}
+    {% endif %}
 </main>
 </body>
 </html>

@@ -2,6 +2,9 @@ body {
   font-family: Quicksand;
   color: black;
 }
+.input-group{
+  padding-right: 30px;
+}
 .fullnav {
   font-family: Quicksand;
   position: fixed;
@@ -114,54 +117,30 @@ body {
     left: 0;
   }
 }
-
+#search_bar_input{
+  border-width: 0px;
+  border-bottom-width: 2px;
+  background-color: transparent;
+}
+.input-group{
+  padding-right: 30px;
+}
 .fullnavBtn {
   position: absolute;
   top: 5%;
-  right: 4%;
+  right: 6%;
   height: 14px;
   width: 32px;
   cursor: pointer;
   z-index: 100;
   -webkit-transition: opacity 0.25s ease;
   transition: opacity 0.25s ease;
+  padding-right: 30px;
 }
-.fullnavBtn:hover {
-  opacity: 0.7;
+#toggle{
+  align-items: center;
+  text-align: center;
 }
-.fullnavBtn.active .top {
-  -webkit-transform: translateY(11px) translateX(0) rotate(45deg);
-  transform: translateY(11px) translateX(0) rotate(45deg);
-  background: #fff;
-}
-.fullnavBtn.active .middle {
-  opacity: 0;
-  background: #fff;
-}
-.fullnavBtn.active .bottom {
-  -webkit-transform: translateY(-11px) translateX(0) rotate(-45deg);
-  transform: translateY(-11px) translateX(0) rotate(-45deg);
-  background: #fff;
-}
-.fullnavBtn span {
-  background: #111111;
-  border: none;
-  height: 3px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-transition: all 0.35s ease;
-  transition: all 0.35s ease;
-  cursor: pointer;
-}
-.fullnavBtn span:nth-of-type(2) {
-  top: 11px;
-}
-.fullnavBtn span:nth-of-type(3) {
-  top: 22px;
-}
-
 .navbar {
   overflow: hidden;
   background-color: #333;
@@ -173,6 +152,11 @@ body {
 
 #logo_div {
   margin-right: 10px;
+}
+.navbar-brand{
+  padding-top: 10px;
+  font-size: 24px;
+  font-family: Quicksand;
 }
 .search-form {
   border: 1px solid #ffffff !important;
