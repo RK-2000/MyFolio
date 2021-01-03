@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from main_app.models import *
 
 my_error_message = {
-    'invalid': ' Password should have 7 letters,a digit and a symbol ',
+    'invalid': 'Your password should have atleast 7 characters including a digit and a symbol',
     'required': 'This field is required'
 }
 CHOICES = ['1', '2', '3', '4', '5']

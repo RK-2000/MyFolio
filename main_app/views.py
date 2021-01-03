@@ -57,19 +57,19 @@ def new_account(request):
                 email = form.cleaned_data['email'].lower()
                 username = form.cleaned_data['enrollment_no'].lower()
                 password = form.cleaned_data['password']
-
                 if User.objects.all().filter(email=email).first() is None and User.objects.all().filter(
                         username=username).first() is None:
                     user = User(first_name=first_name, last_name=last_name, email=email,
                                 password=password,
                                 username=username)
                     user.save()
-                    print('Successful!!!')
+                    messages.success(request, "Account created")
                     request.session.set_expiry(3600)
                     login(request, user)
                     return redirect('home')
                 else:
-                    print('User already found! ')
+                    messages.error(request, "User already created for this email and enrollment id!")
+
             else:
                 print('Not Valid')
         else:
@@ -142,6 +142,9 @@ class BlogView(LoginRequiredMixin, View):
                 form.instance.author_fn = request.user.first_name + " " + request.user.last_name
                 form.save()
                 return redirect('home')
+            else:
+                messages.error(request, "Your can only attach one image in a post. Try again!")
+                return redirect('home')
 
 
 # search result
@@ -162,17 +165,17 @@ def search_result(request, search):
             skill = None
             skill = Skill.objects.filter(skill_name=search).first()
             search = (search.lower()).capitalize()
-            print(search)
+
             p = []
             if skill is not None:
-                print(skill)
+
                 d = UserSkills.objects.filter(skill_id=skill.skill_id).all()
                 for d1 in d:
                     p.append(User.objects.filter(username=d1.user).first())
                     count = count + 1
-                    print(p)
+
                 data['by_skill'] = p
-                print(data["by_skill"])
+
             else:
                 if User.objects.filter(first_name=search).first():
                     d = User.objects.filter(first_name=search).all()
@@ -242,7 +245,7 @@ class GeneralDetails(LoginRequiredMixin, View):
                 form1.save()
                 return redirect('user_profile')
             else:
-                pass
+                messages.error(request, "Invalid entry in Edit about. Try again")
                 return redirect('user_profile')
 
         elif self.request.POST.get('form_type') == 'form2':
@@ -259,35 +262,38 @@ class GeneralDetails(LoginRequiredMixin, View):
                 form2.save()
                 return redirect('user_profile')
             else:
-                pass
+                messages.error(request, "Invalid entry in links edit form. Try again")
                 return redirect('user_profile')
 
         elif self.request.POST.get('form_type') == 'form3':
             form3 = EducationForm(request.POST)
-            print('on form 3')
+
             form3.instance.user = self.request.user
             if form3.is_valid():
-                print('saved form3')
+
                 form3.save()
                 return redirect('user_profile')
             else:
-                pass
+                messages.error(request, "Invalid entry in add educational information. Try again")
                 return redirect('user_profile')
         elif self.request.POST.get('form_type') == 'form4':
             form4 = ProjectsForm(request.POST)
-            print('form4')
+
             form4.instance.user = self.request.user
             if form4.is_valid():
                 form4.save()
                 return redirect('user_profile')
             else:
-                pass
+                messages.error(request, "Invalid entry in add a project. Try again")
                 return redirect('user_profile')
         elif self.request.POST.get('form_type') == 'form5':
             form5 = SkillsForm(request.POST)
             form5.instance.user = self.request.user
             if form5.is_valid():
                 form5.save()
+                return redirect('user_profile')
+            else:
+                messages.error(request, "Invalid entry in add new skill form. Try again")
                 return redirect('user_profile')
 
 
@@ -312,7 +318,7 @@ def delete_skills(request, skill_id):
 
 def delete_edu(request, edu_id):
     if request.user.is_authenticated:
-        print(edu_id)
+
         edu = Education.objects.filter(edu_id=edu_id).first()
         edu.delete()
         return redirect('user_profile')
@@ -382,3 +388,15 @@ def public_post(request, post):
 def logout_user(request):
     logout(request)
     return redirect('introduction')
+
+
+def handler404(request, exception, template_name="404.html"):
+    response = render(template_name)
+    response.status_code = 404
+    return response
+
+
+def handler500(exception, template_name="500.html"):
+    response = render(template_name)
+    response.status_code = 500
+    return response

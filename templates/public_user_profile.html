@@ -59,9 +59,10 @@
             </div>
             <div class="fullnavBtn mt-2 mr-2 col-2 " id="toggle">
                 {% if x.profile_picture %}
-                    <img src="media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
+                    <img src="/media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
                 {% else %}
-                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
+                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png"
+                         width="40px"
                          style="border-radius: 50%;">
                 {% endif %}
                 <label class="small text-center">{{ user.first_name }}</label>
@@ -250,7 +251,7 @@
                     {% for edu in educations %}
                         <div class="text-center">
                             <div class="school-name h5">
-                                {{ edu.school_name }}
+                                <u>{{ edu.school_name }}</u>
                             </div>
                             <div class="degree">
                                 {{ edu.degree }}
@@ -263,9 +264,11 @@
                                     OnGoing
                                 {% endif %}
                             </div>
-                            <div>
-                                Grade : {{ edu.grade }}
-                            </div>
+                            {% if edu.grade != None %}
+                                <div>
+                                    Grade : {{ edu.grade }}
+                                </div>
+                            {% endif %}
                             <br>
                         </div>
                         <div>

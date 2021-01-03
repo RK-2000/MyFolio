@@ -1,0 +1,28 @@
+body{
+    color: white;
+}
+
+@media only screen and (max-device-width: 1366px) {
+  .background {
+    background-attachment: scroll;
+  }
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+#form-div{
+    color: white;
+    background-color: rgba(0,0,0,.8);
+    width: auto;
+    max-width: 450px;
+    min-width: 280px;
+    margin-top: 100px;
+    padding: 30px 10px;
+}
+form>h2{
+    text-align: center;
+}

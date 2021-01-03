@@ -51,17 +51,10 @@
         }
 
         function Copy() {
-            /* Get the text field */
             var copyText = document.getElementById("myInput");
-
-            /* Select the text field */
             copyText.select();
-            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-            /* Copy the text inside the text field */
+            copyText.setSelectionRange(0, 99999)
             document.execCommand("copy");
-
-            /* Alert the copied text */
             alert("Copied the text: " + copyText.value);
         }
 
@@ -80,7 +73,7 @@
 </script>
 <nav class="navbar navbar-light bg-light justify-content-between shadow">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'home' %}">
             <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand"
                  id="logo" width="30px">
             MyFolio
@@ -111,7 +104,8 @@
                 {% if u.profile_picture %}
                     <img src="media/{{ u.profile_picture }}" width="40px" style="border-radius: 50%;">
                 {% else %}
-                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
+                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png"
+                         width="40px"
                          style="border-radius: 50%;">
                 {% endif %}
                 <label class="small text-center text-center">{{ user.first_name }}</label>
@@ -134,12 +128,30 @@
 </div>
 <main class="container">
     <div class="add-blog row justify-content-center" id="add-blog">
+        <div class="col-12 text-center">
+            {% if form.errors %}
+                {% for key,values in form.errors.items %}
+                    <div class="alert alert-primary" role="alert">
+                        <div>{{ values }}</div>
+                        <br>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-primary" role="alert">
+                        <div>{{ message }}</div>
+                        <br>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
         <div class="card bg-light col-12 col-md-10 mb-3">
             <div class="card-body">
-                <h5 class="card-title">Add Blog</h5>
-                <p class="card-text ">What's on your mind?</p>
+                <div class="card-title lead">Want to share some news?</div>
+                <p class="card-text "></p>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Add Post
+                    Create a Post
                 </button>
             </div>
         </div>
@@ -159,21 +171,13 @@
                             {% csrf_token %}
                             {{ form.addBlog.as_p }}
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Yes! Post it</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {% if form.errors %}
-        {% for key,values in form.errors.items %}
-            <div class="alert alert-warning" role="alert">
-                <a>{{ key }}:{{ values }}</a>
-                <br>
-            </div>
-        {% endfor %}
-    {% endif %}
     <!-- Card -->
     {% if data %}
         {% for d in data reversed %}
@@ -188,19 +192,7 @@
                                    href="http://127.0.0.1:8000/profile/{{ d.author }}">{{ d.author_fn }}
                                 </a>
                             </div>
-                            <div class="col-2">
-                                <input type="text" type='hidden' class="d-none"
-                                       value="http://127.0.0.1:8000/post/{{ d.blog_id }}" id="myInput">
-                                <button onclick="Copy()" class="copy-btn btn">
-                                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-clipboard"
-                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                        <path fill-rule="evenodd"
-                                              d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                    </svg>
-                                </button>
-                            </div>
+
                             <div class="col-12">
                                 <p class="card-text">
                                     <small class="text-muted"><strong>Uploaded

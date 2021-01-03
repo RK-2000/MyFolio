@@ -1,0 +1,67 @@
+
+.h1 {
+    font-family: "Google Sans Display";
+    font-weight: lighter;
+    text-align: center;
+}
+#logo-name{
+    font-family: Quicksand;
+}
+#profile-image {
+    border-radius: 50%;
+    border: whitesmoke solid 4px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    max-width: 320px;
+    min-width: 200px;
+    width: 100%;
+
+}
+
+.complete-profile {
+    margin: 20px 10px;
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    border: ghostwhite solid 1px;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+#about-text {
+    text-align: left;
+}
+
+#about-pic {
+    justify-content: center;
+    text-align: center;
+}
+
+#btn-about {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.field-data {
+    margin-top: 8px;
+    word-break: break-word;
+}
+
+.accounts {
+    text-align: center;
+    font-size: 20px;
+    color: #003366;
+}
+.h3{
+    text-align: center;
+
+}
+@media screen and (max-width: 600px){
+    body{
+        text-align: center;
+        font-size: 14px;
+        font-family: "Google Sans Display";
+    }
+}

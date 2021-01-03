@@ -13,17 +13,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\verify_user.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
     <style>
-        .background-img {
+        .background {
+            z-index: -1;
+            position: fixed;
             background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
-            position: absolute;
             width: 100%;
         }
 
         .background-cover {
-             background-color: rgba(240, 240, 240, .90);
-            position: absolute;
+            z-index: -1;
+            background-color: rgba(240, 240, 240, .90);
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -51,65 +53,81 @@
     </script>
 </head>
 <body>
-<div class="background-img">
-    <div class="background-cover">
-        <main class="container-fluid">
-            <nav class="navbar navbar-expand-md navbar-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand text-dark" href="#" id="logo-name">
-                        <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo" width="30px">
+<div class="background">
+</div>
+<div class="background-cover">
+</div>
+<div>
+    <main class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-light">
+            <div class="container-fluid">
+                <a class="navbar-brand text-dark" href="{% url 'introduction' %}" id="logo-name">
+                    <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo"
+                         width="30px">
                     MyFolio
-                    </a>
-                </div>
+                </a>
+            </div>
+        </nav>
+        <div class="fullnavBtn" id="toggle">
+            <span class="top"></span>
+            <span class="middle"></span>
+            <span class="bottom"></span>
+        </div>
+        <div class="fullnav mr-4" id="fullnav">
+            <nav class="fullnavMenu mr-4">
+                <ul>
+                    <li><a href="{% url 'introduction' %}">Home</a></li>
+                    <li><a href="{% url 'new_account' %}">Create new account</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
             </nav>
-            <div class="fullnavBtn" id="toggle">
-                <span class="top"></span>
-                <span class="middle"></span>
-                <span class="bottom"></span>
-            </div>
-            <div class="fullnav mr-4" id="fullnav">
-                <nav class="fullnavMenu mr-4">
-                    <ul>
-                        <li><a href="#">Overview</a></li>
-                        <li><a href="#">Quick Guide</a></li>
-                        <li><a href="#">Contact us</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class="row" id="form-div">
-                <div class="col-12 rounded shadow" id="center-form">
-                    <form method="post">
-                        {% csrf_token %}
-                        <h2>Login</h2>
-                        <label class="email-label">Email</label>
-                        {{ form.email }}
-                        <small id="emailHelp" class="form-text">We'll never share your email with anyone
-                            else.</small>
-                        <label class="email-label">Password</label>
-                        {{ form.password }}
-                        <input type="checkbox" onclick="myFunction()">Show Password
-                        <br>
-                        {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-warning" role="alert">
-                                    ⚠️<strong>{{ message }} !</strong>
+        </div>
+        <div class="row" id="form-div">
+            <div class="col-12 rounded shadow" id="center-form">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2>Login</h2>
+                    <div class="col-12 text-center">
+                        {% if form.errors %}
+                            {% for key,values in form.errors.items %}
+                                ❌
+                                <div class="alert alert-primary" role="alert">
+                                    <div>{{ values }}</div>
+                                    <br>
                                 </div>
                             {% endfor %}
                         {% endif %}
-                        <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p
-                        <br>
-                        <a href="{% url 'new_account' %}">Don't have an account?
-                        </a>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn">Login</button>
-                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                ❌
+                                <div class="alert alert-primary" role="alert">
+                                    <div>{{ message }}</div>
+                                    <br>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <label class="email-label">Email</label>
+                    {{ form.email }}
+                    <small id="emailHelp" class="form-text">We'll never share your email with anyone
+                        else.</small>
+                    <label class="email-label">Password</label>
+                    {{ form.password }}
+                    <input type="checkbox" onclick="myFunction()">Show Password
+                    <br>
+                    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p
+                    <br>
+                    <a href="{% url 'new_account' %}">Don't have an account?
+                    </a>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn">Login</button>
+                    </div>
 
-                    </form>
-                </div>
-
+                </form>
             </div>
-        </main>
-    </div>
+
+        </div>
+    </main>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

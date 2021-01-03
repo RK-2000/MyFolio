@@ -64,7 +64,7 @@
 </div>
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand text-dark ml-2" href="#" id="logo-name">
+        <a class="navbar-brand text-dark ml-2" href="{% url 'introduction' %}" id="logo-name">
             <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo" width="30px">
             MyFolio
         </a>
@@ -78,18 +78,38 @@
 <div class="fullnav mr-4" id="fullnav">
     <nav class="fullnavMenu mr-4">
         <ul>
-            <li><a href="#">Overview</a></li>
-            <li><a href="#">Quick Guide</a></li>
+            <li><a href="{% url "introduction" %}">Home</a></li>
+            <li><a href="{% url "verify_user" %}">Login</a></li>
             <li><a href="#">Contact us</a></li>
         </ul>
     </nav>
 </div>
 
 <main class="container">
+    <div class="row">
+    </div>
     <div class="row" id="form-div">
         <div class="col-12 rounded shadow" id="center-form">
             <form method="post">
                 <h2>Create a new account.</h2>
+                <div class="col-12 text-center">
+                    {% if form.errors %}
+                        {% for key,values in form.errors.items %}
+                            <div class="alert alert-primary" role="alert">
+                                <div>{{ values }}</div>
+                                <br>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-primary" role="alert">
+                                <div>{{ message }}</div>
+                                <br>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
                 {% csrf_token %}
                 <label> First Name</label>
                 {{ form.first_name }}
@@ -106,20 +126,6 @@
                 <input type="checkbox" onclick="makePasswordVisible()">Show Password
                 <small class="form-text" id="email-help">Password should be minimum 7 letters long with atleast a
                     character, a digit and a symbol</small>
-
-
-
-                {% if form.errors %}
-                    {% for key,values in form.errors.items %}
-                        <div class="alert alert-warning" role="alert">
-                            <a>{{ key }}:{{ values }}</a>
-                            <br>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-
-
-
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn">
                         Sign up

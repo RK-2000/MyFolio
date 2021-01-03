@@ -1,3 +1,167 @@
-#welcome{
-    color: #5b80b2;
+body {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    font-family: Quicksand;
 }
+
+
+#welcome-message {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 12%;
+    color: black;
+
+
+}
+
+#logo-name {
+
+    font-size: 40px;
+}
+
+@media screen and (min-width: 601px) {
+    #welcome-message-heading {
+        font-size: 80px;
+        color: white;
+    }
+
+    #login-btn-div {
+        float: right;
+        right: 10%;
+        top: 4%;
+        position: fixed;
+    }
+
+    #login-btn {
+        border: #FF4E4E solid 2px;
+        padding: 8px 20px;
+        color: black;
+        background-color: white;
+    }
+
+    #welcome-message-article {
+        font-size: 18px;
+        margin: 1vw;
+
+    }
+
+    #login-btn-2 {
+        display: none;
+    }
+
+    #logo-name {
+        font-size: 40px;
+    }
+
+    #logo {
+        width: 50px
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    #welcome-message-heading {
+        margin-top: 38px;
+        font-size: 40px;
+    }
+
+    #welcome-message-article {
+        font-size: 16px;
+        margin: 32px;
+    }
+
+    #login-btn-div {
+        display: none;
+    }
+
+    #login-btn-2 {
+        width: 280px;
+        margin: 10px 40px;
+        font-size: 20px;
+        border: #FF4E4E solid 2px;
+        border-radius: 100px;
+        padding: 8px 24px;
+        transition: 0.2s;
+        background-size: 200% auto;
+        color: black;
+        display: block;
+        background-color: white;
+    }
+
+    #login-btn-2:hover {
+
+        background-position: right center;
+        background-color: #e4e4e4;
+        color: black;
+        text-decoration: none;
+        border: #5897fb solid 2px;
+
+    }
+
+    #logo-name {
+        font-size: 28px;
+    }
+
+    #logo {
+        width: 40px;
+    }
+
+    #new-account-btn {
+        max-width: 280px;
+        margin: 10px 40px;
+        font-size: 20px;
+        padding: 8px 24px;
+        transition: 0.2s;
+        border-radius: 40px;
+        background-color: white;
+        color: black;
+        display: block;
+        border: #FF4E4E solid 2px;
+    }
+}
+
+#login-btn:hover {
+    background-position: right center;
+    background-color: #e4e4e4;
+    color: black;
+    text-decoration: none;
+    border: #5897fb solid 2px;
+
+}
+
+.button-group {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#new-account-btn {
+    max-width: 280px;
+    margin: 10px 40px;
+    font-size: 20px;
+    padding: 8px 24px;
+    transition: 0.2s;
+    background-color: white;
+    color: black;
+    display: block;
+    border: #FF4E4E solid 2px;
+}
+
+
+#new-account-btn:hover {
+     background-position: right center;
+        background-color: #e4e4e4;
+        color: black;
+        text-decoration: none;
+        border: #5897fb solid 2px;
+
+}
+
+
+
+
