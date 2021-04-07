@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,7 @@
         .background {
             z-index: -1;
             position: fixed;
-            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
+            background: url({% static 'main_app\img\people-edit.jpg' %}) 50 % fixed no-repeat;
             background-size: cover;
             height: 100%;
             width: 100%;
@@ -89,22 +90,22 @@
                     <h2>Login</h2>
                     <div class="col-12 text-center">
                         {% if form.errors %}
-                            {% for key,values in form.errors.items %}
-                                ❌
-                                <div class="alert alert-primary" role="alert">
-                                    <div>{{ values }}</div>
-                                    <br>
-                                </div>
-                            {% endfor %}
+                        {% for key,values in form.errors.items %}
+                        ❌
+                        <div class="alert alert-primary" role="alert">
+                            <div>{{ values }}</div>
+                            <br>
+                        </div>
+                        {% endfor %}
                         {% endif %}
                         {% if messages %}
-                            {% for message in messages %}
-                                ❌
-                                <div class="alert alert-primary" role="alert">
-                                    <div>{{ message }}</div>
-                                    <br>
-                                </div>
-                            {% endfor %}
+                        {% for message in messages %}
+                        ❌
+                        <div class="alert alert-primary" role="alert">
+                            <div>{{ message }}</div>
+                            <br>
+                        </div>
+                        {% endfor %}
                         {% endif %}
                     </div>
                     <label class="email-label">Email</label>
@@ -115,28 +116,37 @@
                     {{ form.password }}
                     <input type="checkbox" onclick="myFunction()">Show Password
                     <br>
-                    <p><a href="{% url "password_reset" %}">Forgotten your password?</a></p
+                    <p><a href="">Forgotten your password?</a></p
                     <br>
                     <a href="{% url 'new_account' %}">Don't have an account?
                     </a>
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn">Login</button>
+                        <br>
+                        <a href="{% provider_login_url 'google' %}" class="btn btn btn-danger btn-lg btn-block"
+                           role="button" aria-pressed="true">Sign in with Google
+                        </a>
                     </div>
-
                 </form>
             </div>
-
         </div>
     </main>
 </div>
+
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+</script>
+
+
 </body>
 </html>
