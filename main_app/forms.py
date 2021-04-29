@@ -38,6 +38,30 @@ class NewUserForm(forms.Form):
                                            'type': 'password'}))
 
 
+class UpdateUser(forms.Form):
+    first_name = forms.CharField(max_length=40, required=True,
+                                 widget=forms.TextInput(
+                                     attrs={'class': 'form-control', 'id': 'first-name-field',
+                                            'placeholder': 'eg : Elon', 'type': 'text'}))
+    last_name = forms.CharField(max_length=40, required=True,
+                                widget=forms.TextInput(
+                                    attrs={'class': 'form-control', 'id': 'last-name-field', 'placeholder': 'eg : Musk',
+                                           'type': 'text'}))
+    enrollment_no = forms.RegexField(regex='(0187[a-zA-Z]{2}[0-9]{6})', required=True,
+                                     widget=forms.TextInput(
+                                         attrs={'class': 'form-control', 'id': 'username-field',
+                                                'placeholder': 'eg : 0187cs181114',
+                                                'type': 'text'}))
+    dob = forms.CharField(required=True, widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}))
+    phone = forms.RegexField(required=True, regex='([0-9]{10})', widget=forms.TextInput(
+        attrs={'class': 'form-control', 'id': 'phone'}))
+    image = forms.ImageField(required=False)
+
+
+class UpdateAbout(forms.Form):
+    about = forms.CharField(widget=forms.Textarea())
+
+
 class VerifyUser(forms.Form):
     email = forms.EmailField(required=True, widget=forms.TextInput(
         attrs={'class': 'form-control', 'id': 'exampleInputEmail1', 'placeholder': 'Enter Email'}))
@@ -52,16 +76,8 @@ class AddBlog(ModelForm):
         fields = [
             'image', 'description'
         ]
-
-
-class CompleteUserForm(ModelForm):
-    class Meta:
-        model = UserCompleteProfile
-        fields = [
-            'about', 'dob', 'profile_picture', 'phone_no'
-        ]
         widgets = {
-            'dob': forms.TextInput(attrs={'type': 'date'})
+
         }
 
 
@@ -71,9 +87,6 @@ class LinksForm(ModelForm):
         fields = [
             'link'
         ]
-        widgets = {
-
-        }
 
 
 class ProjectsForm(ModelForm):

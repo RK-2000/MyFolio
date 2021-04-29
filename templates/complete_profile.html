@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
-    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
@@ -108,9 +108,13 @@
         {% endif %}
     </div>
     <!-- Profile -->
+
     <div class="row complete-profile" id="about">
         <div class="h1 col-12">
             {{ user.first_name }} {{ user.last_name }}
+        </div>
+        <div>
+            <hr>
         </div>
         <div class="col-12 col-md-6" id="about-pic">
             {% if data.profile_picture %}
@@ -134,7 +138,7 @@
                               d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/>
                     </svg>
                 </a>
-                {{ user.email }}
+                - {{ user.email }}
             </div>
             {% if 1 %}
                 <div class="field-data">
@@ -146,7 +150,7 @@
                             <path fill-rule="evenodd"
                                   d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
                         </svg>
-                    </a> {{ user.username }}
+                    </a> - {{ user.username }}
                 </div>
                 <div class="field-data">
                     <a>
@@ -160,9 +164,9 @@
                         </svg>
                     </a>
                     {% if data.dob %}
-                        {{ data.dob }}
+                        -  {{ data.dob }}
                     {% else %}
-                        Don't be shy. Tell us when you were born.
+                        -  Don't be shy. Tell us when you were born.
                     {% endif %}
                 </div>
                 <div class="field-data">
@@ -174,38 +178,85 @@
                         </svg>
                     </a>
                     {% if data.phone_no %}
-                        {{ data.phone_no }}
+                        -  {{ data.phone_no }}
                     {% else %}
-                        We won't share your number.
-                    {% endif %}
-
-                </div>
-                <div>
-                    <hr>
-                </div>
-                <div class="field-data">
-                    <a>
-                        <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-square"
-                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                            <path fill-rule="evenodd"
-                                  d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-                            <circle cx="8" cy="4.5" r="1"/>
-                        </svg>
-                    </a>
-
-                    {% if data.about %}
-                        {{ data.about }}
-                    {% else %}
-                        You seems to be a wonderful person. Tell us more about you.
+                        -  We won't share your number.
                     {% endif %}
                 </div>
             {% endif %}
         </div>
 
         <div>
+            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalUser"
+                    id="btn-about">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square"
+                     fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                    <path fill-rule="evenodd"
+                          d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg>
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalUser" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit About</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" enctype="multipart/form-data" id='form6'>
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="form6">
+                                {{ form.form6.as_p }}
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Info -->
+    <div class="row complete-profile" id="basic">
+        <div class="col-12" id="about-text">
+            <h3 class="text-center">Bio</h3>
+            <div>
+                <hr>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="field-data">
+                <a>
+                    <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-info-square"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path fill-rule="evenodd"
+                              d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                        <circle cx="8" cy="4.5" r="1"/>
+                    </svg>
+                </a>
+                {% if data.about %}
+                    -  {{ data.about }}
+                {% else %}
+                    -  You seems to be a wonderful person. Tell us more about you.
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
             <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal"
                     id="btn-about">
                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square"
@@ -216,7 +267,6 @@
                           d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                 </svg>
             </button>
-
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                  aria-labelledby="exampleModalLabel"
@@ -245,8 +295,10 @@
                 </div>
             </div>
         </div>
-
     </div>
+    </div>
+
+
     <!-- Skills -->
     <div class="row complete-profile" id="public-profiles">
         <h3 class="font-weight-normal">
@@ -511,7 +563,7 @@
         <h3 class="font-weight-normal">
             Projects
         </h3>
-        <div class="col-12 text-center">
+        <div class="col-12">
 
             {% if projects %}
                 <div>
@@ -566,7 +618,7 @@
                 </svg>
             </button>
 
-            <!-- Modal -->
+            <!-- Projects Modal -->
             <div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">

@@ -17,7 +17,7 @@
         .background {
             z-index: -1;
             position: fixed;
-            background: url({% static 'main_app\img\people-edit.jpg' %}) 50 % fixed no-repeat;
+            background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
             width: 100%;
@@ -90,22 +90,22 @@
                     <h2>Login</h2>
                     <div class="col-12 text-center">
                         {% if form.errors %}
-                        {% for key,values in form.errors.items %}
-                        ❌
-                        <div class="alert alert-primary" role="alert">
-                            <div>{{ values }}</div>
-                            <br>
-                        </div>
-                        {% endfor %}
+                            {% for key,values in form.errors.items %}
+                                ❌
+                                <div class="alert alert-primary" role="alert">
+                                    <div>{{ values }}</div>
+                                    <br>
+                                </div>
+                            {% endfor %}
                         {% endif %}
                         {% if messages %}
-                        {% for message in messages %}
-                        ❌
-                        <div class="alert alert-primary" role="alert">
-                            <div>{{ message }}</div>
-                            <br>
-                        </div>
-                        {% endfor %}
+                            {% for message in messages %}
+                                ❌
+                                <div class="alert alert-primary" role="alert">
+                                    <div>{{ message }}</div>
+                                    <br>
+                                </div>
+                            {% endfor %}
                         {% endif %}
                     </div>
                     <label class="email-label">Email</label>
@@ -114,19 +114,23 @@
                         else.</small>
                     <label class="email-label">Password</label>
                     {{ form.password }}
-                    <input type="checkbox" onclick="myFunction()">Show Password
-                    <br>
-                    <p><a href="">Forgotten your password?</a></p
-                    <br>
-                    <a href="{% url 'new_account' %}">Don't have an account?
-                    </a>
+                    <input type="checkbox" onclick="myFunction()"> Show Password<br>
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn">Login</button>
-                        <br>
-                        <a href="{% provider_login_url 'google' %}" class="btn btn btn-danger btn-lg btn-block"
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <a href="{% provider_login_url 'google' %}" class="btn btn" id="google-btn"
                            role="button" aria-pressed="true">Sign in with Google
                         </a>
                     </div>
+                    <p><small>
+                        <br>
+                        <a href="">Forgotten your password?</a>
+                        <br>
+                        <a href="{% url 'new_account' %}">Don't have an account?
+                        </a>
+                    </small>
+                    </p>
                 </form>
             </div>
         </div>

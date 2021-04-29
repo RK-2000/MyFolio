@@ -5,7 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from main_app.models import *
-from django.views.generic import FormView, ListView, View
+from django.views.generic import View
 import re
 from PIL import Image
 
@@ -197,7 +197,6 @@ def search_result(request, search):
 class GeneralDetails(LoginRequiredMixin, View):
     login_url = 'verify_user'
     redirect_field_name = 'general_edit'
-    form_class = CompleteUserForm
     template_name = 'complete_profile.html'
 
     def get(self, request):
@@ -208,6 +207,14 @@ class GeneralDetails(LoginRequiredMixin, View):
         skills = UserSkills.objects.filter(user=self.request.user).all()
         blogs = Blog.objects.filter(author=self.request.user).all()
         stars = []
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'enrollment_no': request.user.username,
+        }
+        about = {
+
+        }
         if skills is not None:
             for skill in skills:
                 star = []
@@ -215,22 +222,31 @@ class GeneralDetails(LoginRequiredMixin, View):
                     star.append('*')
                 stars.append(star)
         if data:
+            initial_data = {
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'enrollment_no': request.user.username,
+                'dob': data.dob,
+                'phone': data.phone_no,
+                'image': data.profile_picture
+            }
+            about = {
+                'about': data.about
+            }
             if data.profile_picture:
                 im = Image.open(data.profile_picture)
                 thumb_width = 320
                 im_thumb = crop_max_square(im).resize((thumb_width, thumb_width), Image.LANCZOS)
                 loc = 'media/' + str(data.profile_picture)
                 im_thumb.save(loc)
-        form = {}
-        if data is not None:
-            form['form1'] = CompleteUserForm(instance=data)
-        else:
-            form['form1'] = CompleteUserForm()
 
+        form = {}
+        form['form1'] = UpdateAbout(initial=about)
         form['form2'] = LinksForm()
         form['form3'] = EducationForm()
         form['form4'] = ProjectsForm()
         form['form5'] = SkillsForm()
+        form['form6'] = UpdateUser(initial=initial_data)
         return render(request, 'complete_profile.html',
                       {'data': data, 'links': links, 'educations': educations, 'projects': projects, 'stars': stars,
                        'skills': skills, 'blogs': blogs,
@@ -239,10 +255,14 @@ class GeneralDetails(LoginRequiredMixin, View):
     def post(self, request):
         if self.request.POST.get('form_type') == 'form1':
             data = UserCompleteProfile.objects.filter(user=self.request.user).first()
-            form1 = CompleteUserForm(request.POST, request.FILES, instance=data)
-            form1.instance.user = self.request.user
+            form1 = UpdateAbout(request.POST)
             if form1.is_valid():
-                form1.save()
+                about = form1.cleaned_data['about']
+                if data is None:
+                    about = UserCompleteProfile.objects.create(user=request.user, about=about)
+                else:
+                    data.about = about
+                    data.save()
                 return redirect('user_profile')
             else:
                 messages.error(request, "Invalid entry in Edit about. Try again")
@@ -267,10 +287,8 @@ class GeneralDetails(LoginRequiredMixin, View):
 
         elif self.request.POST.get('form_type') == 'form3':
             form3 = EducationForm(request.POST)
-
             form3.instance.user = self.request.user
             if form3.is_valid():
-
                 form3.save()
                 return redirect('user_profile')
             else:
@@ -278,7 +296,6 @@ class GeneralDetails(LoginRequiredMixin, View):
                 return redirect('user_profile')
         elif self.request.POST.get('form_type') == 'form4':
             form4 = ProjectsForm(request.POST)
-
             form4.instance.user = self.request.user
             if form4.is_valid():
                 form4.save()
@@ -294,6 +311,39 @@ class GeneralDetails(LoginRequiredMixin, View):
                 return redirect('user_profile')
             else:
                 messages.error(request, "Invalid entry in add new skill form. Try again")
+                return redirect('user_profile')
+
+        elif self.request.POST.get('form_type') == 'form6':
+            form6 = UpdateUser(request.POST, request.FILES)
+            if form6.is_valid():
+                first_name = (form6.cleaned_data['first_name'].lower()).capitalize()
+                last_name = (form6.cleaned_data['last_name'].lower()).capitalize()
+                username = form6.cleaned_data['enrollment_no'].lower()
+                dob = form6.cleaned_data['dob']
+                image = form6.cleaned_data['image']
+                phone = form6.cleaned_data['phone']
+                details = UserCompleteProfile.objects.filter(user=request.user).first()
+                if details is None:
+                    details = UserCompleteProfile.objects.create(user=request.user, dob=dob, profile_picture=image,
+                                                                 phone_no=phone)
+                    details.save()
+                else:
+                    details.dob = dob
+                    if image:
+                        details.profile_picture = image
+                    details.phone_no = phone
+                    details.save()
+                if username != request.user.username:
+                    if User.objects.filter(username=username).first() is None and username != request.user.username:
+                        User.objects.filter(username=self.request.user).update(first_name=first_name,
+                                                                               last_name=last_name,
+                                                                               username=username)
+                    else:
+                        messages.error(request, "Username already taken")
+                return redirect('user_profile')
+            else:
+                print(form6.errors)
+                messages.error(request, "Invalid entry in basic information. Try again")
                 return redirect('user_profile')
 
 

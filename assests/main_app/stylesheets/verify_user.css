@@ -58,7 +58,7 @@ form > small{
 }
 
 .btn {
-    margin: 30px 5px;
+    margin: 10px 5px;
     width: 280px;
     color: black;
     border: #FF4E4E solid 2px;
@@ -83,4 +83,8 @@ form > small{
     .btn{
         border-radius: 30px$;
     }
+}
+#google-btn{
+    color: white;
+    background-color: #FF4E4E;
 }

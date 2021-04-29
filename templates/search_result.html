@@ -80,7 +80,7 @@
                 </div>
                 <div class="fullnavBtn mt-2 mr-2 col-2 " id="toggle">
                     {% if x.profile_picture %}
-                    <img src="media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
+                    <img src="/media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
                 {% else %}
                     <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
                          style="border-radius: 50%;">
@@ -179,7 +179,7 @@
 
         {% if data.by_skill %}
             <div class="text-center">
-                We got {{ count }} student/students matching these requirements
+                We got {{ count }} student matching these requirements
             </div>
             <hr>
             {% for p in data.by_skill %}

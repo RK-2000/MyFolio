@@ -121,6 +121,8 @@ body {
   border-width: 0px;
   border-bottom-width: 2px;
   background-color: transparent;
+  border-color: white;
+  color: white;
 }
 .input-group{
   padding-right: 30px;
@@ -194,10 +196,12 @@ card-title {
 
 .button-div {
   float: right;
-  right: 10px;
+  right: 100px;
   position: absolute;
 }
-
+#search{
+  margin-right: 60px;
+}
 .copy-btn {
   position: absolute;
   float: right;
@@ -214,27 +218,4 @@ card-title {
 .image {
   margin-top: 20px;
 }
-@media (min-width: 767px) {
-  .navbar-search-form {
-    position: fixed;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 20%;
-    float: none;
-    text-align: center;
-  }
-}
-@media only screen and (max-width: 360px) {
-  .navbar-search-form {
-    position: absolute;
-    left: 50%;
-    right: 50%;
 
-    margin: auto;
-    width: 30%;
-    float: none;
-    text-align: center;
-    padding: 0;
-  }
-}
