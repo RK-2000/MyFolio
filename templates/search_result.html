@@ -11,7 +11,7 @@
             crossorigin="anonymous"
     />
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,37 +68,94 @@
 <div class="background-cover">
 </div>
 {% if user %}
-    <nav class="navbar navbar-light bg-light shadow-lg">
-        <div class="container-fluid">
-            <div class="row">
-                <div id="logo_div" class="col-2">
-                    <a class="navbar-brand ml-2" href="{% url 'home' %}" id="logo-name">
-                        <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo"
-                             width="30px">
-                        MyFolio
-                    </a>
-                </div>
-                <div class="fullnavBtn mt-2 mr-2 col-2 " id="toggle">
-                    {% if x.profile_picture %}
-                    <img src="/media/{{ x.profile_picture }}" width="40px" style="border-radius: 50%;">
-                {% else %}
-                    <img src="https://png.pngitem.com/pimgs/s/508-5087236_tab-profile-f-user-icon-white-fill-hd.png" width="40px"
-                         style="border-radius: 50%;">
-                {% endif %}
-                    <label class="small text-center">{{ user.first_name }}</label>
-                </div>
-                <div class="fullnav mr-4" id="fullnav">
-                    <nav class="fullnavMenu mr-4">
-                        <ul>
-                            <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="#">Help</a></li>
-                            <li><a href="{% url 'logout_user' %}" class="text-light">Logout</a></li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+    <div class="row d-flex justify-content-between" id="items">
+      <div class="col-2 col-md-2">
+
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'main_app/img/Group 2@2x.png' %}" width="30px">
+          </a>
+      </div>
+      </button>
+      <div class="col-7 col-md-6 search-area">
+        <form class="form-inline row" role="search" method="POST">
+          {% csrf_token %}
+          {{ data.form.search }}
+          <input type="hidden" name='form_type' value="search">
+          <button class="btn btn-default col-2" type="submit">
+            <svg width="26" height="26"
+                 viewBox="0 0 16 16"
+                 style="color:white"
+                 class="bi bi-search" fill="currentColor"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                <path fill-rule="evenodd"
+                      d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            </svg>
+        </button>
+        </form>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </svg>
+      </button>
+      <div class="col-4" id="options">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto ">
+            <li class="nav-item active ">
+              <a class="nav-link" href="#"
+                ><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                </svg></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+              </svg></a>
+            </li>
+            <li class="nav-item dropleft">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+        {% if x.profile_picture %}
+        <img src="/media/{{ x.profile_picture }}" width="30px" style="border-radius: 50%;">
+        {% else %}
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </svg>
+        {% endif %}     
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
+                <a class="dropdown-item" href="#">Change Password</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+              </div>
+            </li>
+          </ul>
         </div>
-    </nav>
+      </div>
+    </div>
+  </nav>
 {% endif %}
 
 <header>

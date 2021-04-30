@@ -116,7 +116,7 @@ class EducationForm(ModelForm):
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=15, required=True,
-                             widget=forms.TextInput(attrs={'id': 'search_bar_input', 'placeholder': 'search'}))
+                             widget=forms.TextInput(attrs={'id': 'search_bar_input', 'placeholder': 'Search'}))
 
 
 class SkillsForm(ModelForm):

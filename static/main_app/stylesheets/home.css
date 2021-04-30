@@ -119,10 +119,15 @@ body {
 }
 #search_bar_input{
   border-width: 0px;
+  border-radius: 0;
   border-bottom-width: 2px;
   background-color: transparent;
   border-color: white;
   color: white;
+}
+#search_bar_input:focus{
+  border-color: transparent
+  box-shadow: none;
 }
 .input-group{
   padding-right: 30px;
@@ -160,15 +165,6 @@ body {
   font-size: 24px;
   font-family: Quicksand;
 }
-.search-form {
-  border: 1px solid #ffffff !important;
-}
-
-.search-button {
-  color: #007bff;
-  background-color: #ffffff;
-  border-color: #ffffff;
-}
 
 .extra-space {
   height: 100px;
@@ -199,8 +195,31 @@ card-title {
   right: 100px;
   position: absolute;
 }
-#search{
-  margin-right: 60px;
+#items{
+  width: 100%;
+}
+.search-area{
+  justify-content: center;
+  max-width: 300px;
+}
+#options{
+  max-width: 200px;
+  margin-right: 0%;
+  justify-content: right;
+  float: right;  
+}
+#search-bar{
+  border-width: 0px;
+  border-radius: 0;
+  border-bottom-width: 2px;
+  background-color: transparent;
+  border-color: white;
+  color: white;
+}
+#search-bar:focus{
+  border-color: white;
+  box-shadow: none;
+  color: white;
 }
 .copy-btn {
   position: absolute;

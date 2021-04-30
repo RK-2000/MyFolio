@@ -1,7 +1,5 @@
 
-.h1 {
-    font-family: "Google Sans Display";
-    font-weight: lighter;
+.h2 {
     text-align: center;
 }
 #logo-name{
@@ -9,10 +7,9 @@
 }
 #profile-image {
     border-radius: 50%;
-    border: whitesmoke solid 4px;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-    max-width: 320px;
-    min-width: 200px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 14px 0px;
+    max-width: 200px;
+    min-width: 100px;
     width: 100%;
 
 }
@@ -25,13 +22,9 @@
     justify-content: center;
     max-width: 1200px;
     border: ghostwhite solid 1px;
-    border-radius: 20px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
-}
-
-#about-text {
-    text-align: left;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,.95);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 6px 14px;
 }
 
 #about-pic {
@@ -60,8 +53,6 @@
 }
 @media screen and (max-width: 600px){
     body{
-        text-align: center;
         font-size: 14px;
-        font-family: "Google Sans Display";
     }
 }

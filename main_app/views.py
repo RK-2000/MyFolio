@@ -151,6 +151,7 @@ class BlogView(LoginRequiredMixin, View):
 def search_result(request, search):
     if request.user.is_authenticated:
         data = {}
+        data['form'] = SearchForm()
         count = 0
         profile_pictures = []
         x = UserCompleteProfile.objects.filter(user=request.user).first()
@@ -187,6 +188,10 @@ def search_result(request, search):
                     for d1 in d:
                         count = count + 1
                     data['l_name'] = d
+        if request.POST.get('form_type') == 'search':
+            form = SearchForm(request.POST)
+            search = (form['search'].value()).lower()
+            return redirect(search_result, **{'search': search})
 
         return render(request, 'search_result.html', {'data': data, 'count': count, "images": profile_pictures, 'x': x})
     else:
@@ -247,6 +252,7 @@ class GeneralDetails(LoginRequiredMixin, View):
         form['form4'] = ProjectsForm()
         form['form5'] = SkillsForm()
         form['form6'] = UpdateUser(initial=initial_data)
+        form['form7'] = SearchForm()
         return render(request, 'complete_profile.html',
                       {'data': data, 'links': links, 'educations': educations, 'projects': projects, 'stars': stars,
                        'skills': skills, 'blogs': blogs,
@@ -313,6 +319,11 @@ class GeneralDetails(LoginRequiredMixin, View):
                 messages.error(request, "Invalid entry in add new skill form. Try again")
                 return redirect('user_profile')
 
+        elif self.request.POST.get('form_type') == 'search':
+            form = SearchForm(request.POST)
+            search = (form['search'].value()).lower()
+            return redirect(search_result, **{'search': search})
+        
         elif self.request.POST.get('form_type') == 'form6':
             form6 = UpdateUser(request.POST, request.FILES)
             if form6.is_valid():
