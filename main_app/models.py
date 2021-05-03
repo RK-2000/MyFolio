@@ -30,7 +30,6 @@ class UserCompleteProfile(models.Model):
     dob = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(blank=True, null=True, upload_to='images/profile_pictures/')
     about = models.TextField(blank=True, null=True)
-    phone_no = models.CharField(max_length=10, blank=True, null=True)
 
 
 class Link(models.Model):

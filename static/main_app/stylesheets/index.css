@@ -1,4 +1,5 @@
 body {
+    color: white;
     top: 0;
     bottom: 0;
     left: 0;
@@ -13,13 +14,12 @@ body {
     justify-content: center;
     text-align: center;
     margin-top: 12%;
-    color: black;
+    color: white;
 
 
 }
 
 #logo-name {
-
     font-size: 40px;
 }
 
@@ -27,6 +27,8 @@ body {
     #welcome-message-heading {
         font-size: 80px;
         color: white;
+        font-family: Montserrat;
+        font-weight: bold;
     }
 
     #login-btn-div {
@@ -39,8 +41,10 @@ body {
     #login-btn {
         border: #FF4E4E solid 2px;
         padding: 8px 20px;
-        color: black;
-        background-color: white;
+        color: #FF4E4E;
+        font-family: Montserrat;
+        font-weight: bold;
+        background-color: transparent;
     }
 
     #welcome-message-article {
@@ -87,16 +91,18 @@ body {
         padding: 8px 24px;
         transition: 0.2s;
         background-size: 200% auto;
-        color: black;
+        color: white;
         display: block;
-        background-color: white;
+        background-color: transparent;
+        font-family: Montserrat;
+        font-weight: bold;
     }
 
     #login-btn-2:hover {
 
         background-position: right center;
-        background-color: #e4e4e4;
-        color: black;
+        background-color: transparent;
+        color: #b5d1ff;
         text-decoration: none;
         border: #5897fb solid 2px;
 
@@ -126,8 +132,8 @@ body {
 
 #login-btn:hover {
     background-position: right center;
-    background-color: #e4e4e4;
-    color: black;
+    background-color: transparent;
+    color: #b5d1ff;;
     text-decoration: none;
     border: #5897fb solid 2px;
 
@@ -146,19 +152,21 @@ body {
     font-size: 20px;
     padding: 8px 24px;
     transition: 0.2s;
-    background-color: white;
-    color: black;
+    background-color: transparent;
+    color: white;
     display: block;
     border: #FF4E4E solid 2px;
+    font-weight: bold;
+    font-family: Montserrat;
 }
 
 
 #new-account-btn:hover {
-     background-position: right center;
-        background-color: #e4e4e4;
-        color: black;
-        text-decoration: none;
-        border: #5897fb solid 2px;
+    background-position: right center;
+    background-color: transparent;
+    color: #b5d1ff;
+    text-decoration: none;
+    border: #5897fb solid 2px;
 
 }
 

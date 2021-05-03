@@ -25,7 +25,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgba(240, 240, 240, .90);
+            background-color: rgba(0,0,0, .50);
             position: fixed;
             top: 0;
             left: 0;
@@ -62,7 +62,7 @@
     <main class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand text-dark" href="{% url 'introduction' %}" id="logo-name">
+                <a class="navbar-brand text-light" href="{% url 'introduction' %}" id="logo-name">
                     <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo"
                          width="30px">
                     MyFolio
@@ -125,9 +125,9 @@
                     </div>
                     <p><small>
                         <br>
-                        <a href="">Forgotten your password?</a>
+                        <a href="" class="small-form">Forgotten your password?</a>
                         <br>
-                        <a href="{% url 'new_account' %}">Don't have an account?
+                        <a href="{% url 'new_account' %}" class="small-form">Don't have an account?
                         </a>
                     </small>
                     </p>

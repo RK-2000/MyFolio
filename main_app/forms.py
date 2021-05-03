@@ -51,10 +51,8 @@ class UpdateUser(forms.Form):
                                      widget=forms.TextInput(
                                          attrs={'class': 'form-control', 'id': 'username-field',
                                                 'placeholder': 'eg : 0187cs181114',
-                                                'type': 'text'}))
+                                                'type': 'text','pattern':'(0187[a-zA-Z]{2}[0-9]{6})'}))
     dob = forms.CharField(required=True, widget=forms.TextInput(attrs={'type': 'date', 'class': 'form-control'}))
-    phone = forms.RegexField(required=True, regex='([0-9]{10})', widget=forms.TextInput(
-        attrs={'class': 'form-control', 'id': 'phone'}))
     image = forms.ImageField(required=False)
 
 

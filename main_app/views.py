@@ -114,6 +114,7 @@ class BlogView(LoginRequiredMixin, View):
     template_name = 'home.html'
 
     def get(self, request):
+        user = User.objects.filter(username=request.user).first()
         data = Blog.objects.all()
         u = UserCompleteProfile.objects.filter(user=request.user).first()
         me = ''
@@ -128,7 +129,7 @@ class BlogView(LoginRequiredMixin, View):
                     im_thumb = expand2square(im, (0, 0, 0)).resize((thumb_width, thumb_width), Image.LANCZOS)
                     loc = 'media/' + str(d.image)
                     im_thumb.save(loc)
-        return render(request, 'home.html', {'data': data, 'form': form, 'me': me, 'u': u})
+        return render(request, 'home.html', {'data': data, 'form': form, 'me': me, 'u': u,'user':user})
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'search':
@@ -232,7 +233,6 @@ class GeneralDetails(LoginRequiredMixin, View):
                 'last_name': request.user.last_name,
                 'enrollment_no': request.user.username,
                 'dob': data.dob,
-                'phone': data.phone_no,
                 'image': data.profile_picture
             }
             about = {
@@ -332,17 +332,15 @@ class GeneralDetails(LoginRequiredMixin, View):
                 username = form6.cleaned_data['enrollment_no'].lower()
                 dob = form6.cleaned_data['dob']
                 image = form6.cleaned_data['image']
-                phone = form6.cleaned_data['phone']
                 details = UserCompleteProfile.objects.filter(user=request.user).first()
                 if details is None:
-                    details = UserCompleteProfile.objects.create(user=request.user, dob=dob, profile_picture=image,
-                                                                 phone_no=phone)
+                    details = UserCompleteProfile.objects.create(user=request.user, dob=dob, profile_picture=image)
                     details.save()
                 else:
                     details.dob = dob
                     if image:
                         details.profile_picture = image
-                    details.phone_no = phone
+
                     details.save()
                 if username != request.user.username:
                     if User.objects.filter(username=username).first() is None and username != request.user.username:

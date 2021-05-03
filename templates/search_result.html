@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\complete_profile.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\home.css' %}">
     <link rel="stylesheet" href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}">
-    <link rel="stylesheet" href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
@@ -36,7 +36,7 @@
 
         .background-cover {
             z-index: -1;
-            background-color: rgb(243, 242, 239, .80);
+            background-color: rgba(208, 231, 255, 0.9);
             position: fixed;
             top: 0;
             left: 0;
@@ -68,198 +68,192 @@
 <div class="background-cover">
 </div>
 {% if user %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
-    <div class="row d-flex justify-content-between" id="items">
-      <div class="col-2 col-md-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+        <div class="row d-flex justify-content-between" id="items">
+            <div class="col-2 col-md-2">
 
-        <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'main_app/img/Group 2@2x.png' %}" width="30px">
-          </a>
-      </div>
-      </button>
-      <div class="col-7 col-md-6 search-area">
-        <form class="form-inline row" role="search" method="POST">
-          {% csrf_token %}
-          {{ data.form.search }}
-          <input type="hidden" name='form_type' value="search">
-          <button class="btn btn-default col-2" type="submit">
-            <svg width="26" height="26"
-                 viewBox="0 0 16 16"
-                 style="color:white"
-                 class="bi bi-search" fill="currentColor"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd"
-                      d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                <path fill-rule="evenodd"
-                      d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-            </svg>
-        </button>
-        </form>
-      </div>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list" viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-      </svg>
-      </button>
-      <div class="col-4" id="options">
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto ">
-            <li class="nav-item active ">
-              <a class="nav-link" href="#"
-                ><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
-                  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
-                </svg></a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-              </svg></a>
-            </li>
-            <li class="nav-item dropleft">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-        {% if x.profile_picture %}
-        <img src="/media/{{ x.profile_picture }}" width="30px" style="border-radius: 50%;">
-        {% else %}
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-        </svg>
-        {% endif %}     
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
-                <a class="dropdown-item" href="#">Change Password</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
-              </div>
-            </li>
-          </ul>
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    <img src="{% static 'main_app/img/Group 2@2x.png' %}" width="30px">
+                </a>
+            </div>
+            </button>
+            <div class="col-7 col-md-6 search-area">
+                <form class="form-inline row" role="search" method="POST">
+                    {% csrf_token %}
+                    {{ data.form.search }}
+                    <input type="hidden" name='form_type' value="search">
+                    <button class="btn btn-default col-2" type="submit">
+                        <svg width="26" height="26"
+                             viewBox="0 0 16 16"
+                             style="color:white"
+                             class="bi bi-search" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd"
+                                  d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+            </button>
+            <div class="col-4" id="options">
+                <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto ">
+                        <li class="nav-item active ">
+                            <a class="nav-link" href="#"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                     class="bi bi-house-door" viewBox="0 0 16 16">
+                                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                                </svg>
+                            </a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                                     class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                                    <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="nav-item dropleft">
+                            <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="navbarDropdown"
+                                    role="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                            >
+                                {% if x.profile_picture %}
+                                    <img src="/media/{{ x.profile_picture }}" width="30px" style="border-radius: 50%;">
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white"
+                                         class="bi bi-person-circle" viewBox="0 0 16 16">
+                                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                        <path fill-rule="evenodd"
+                                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                    </svg>
+                                {% endif %}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
+                                <a class="dropdown-item" href="#">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 {% endif %}
-
-<header>
+<div class="extra-space mb-4"></div>
+<h3>
     <h1 class="text-center display-4"> Search Result</h1>
-</header>
-<main>
+</h3>
+<main class="container">
     {% if data %}
         <!-- By Username-->
         {% if data.by_user %}
-            <div class="text-center">
-                We got the student matching this enrollment number
-            </div>
-            <hr>
-            {% for p in data.by_user %}
-                <br>
-                <div
-                        class="row bg-light rounded"
-                        style="display: flex; text-align: center; font-size: large"
-                >
-                    <div class="text-center col-12">
-                        <a href="{% url 'public_profile' p.username %}">
+            <div class="row d-flex justify-content-center">
+                <div class="text-center h3 col-12">
+                    We got the student matching this enrollment number
+                    <hr class="sr">
+                </div>
+                {% for p in data.by_user %}
+                    <div class="col-md-4 col-12 ml-1 mr-1 mt-1 mb-1 bg-light text-left search-results text-dark">
+                        <a href="{% url 'public_profile' p.username %}" class="text-dark">
                             <div>{{ p.username }}
                                 <br>
                                 {{ p.first_name }} {{ p.last_name }}
                             </div>
-
                         </a>
                     </div>
-                </div>
-            {% endfor %}
+                    <br>
+                {% endfor %}
+            </div>
         {% endif %}
         <!-- By First name-->
         {% if data.by_f_name %}
-            We got {{ count }} students matching this name
-            <hr>
-            {% for p in data.by_f_name %}
-                <br>
-                <div
-                        class="row bg-light rounded"
-                        style="display: flex; text-align: center; font-size: large"
-                >
-                    <div class="text-center col-12">
-                        <a href="{% url 'public_profile' p.username %}">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    We got {{ count }} students matching this name
+                    <hr class="sr">
+                </div>
+                {% for p in data.by_f_name %}
+                    <div class="col-md-4 col-12 ml-1 mr-1 mt-1 mb-1 bg-light text-left search-results">
+                        <a href="{% url 'public_profile' p.username %}" class="text-dark">
                             <div>{{ p.username }}
                                 <br>
                                 {{ p.first_name }} {{ p.last_name }}
                             </div>
-
                         </a>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% endif %}
 
         <!--By Last Name-->
         {% if data.l_name %}
-            We got {{ count }} students matching these last name
-            <hr>
-            {% for p in data.l_name %}
-                <br>
-                <div
-                        class="row bg-light rounded"
-                        style="display: flex; text-align: center; font-size: large"
-                >
-                    <div class="text-center col-12">
-                        <a href="{% url 'public_profile' p.username %}">
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    We got {{ count }} students matching these last name
+                    <hr class="sr">
+                </div>
+                {% for p in data.l_name %}
+                    <div class="col-md-4 col-12 ml-1 mr-1 mt-1 mb-1 bg-light text-left search-results">
+                        <a href="{% url 'public_profile' p.username %}" class="text-dark">
                             <div>{{ p.username }}
                                 <br>
                                 {{ p.first_name }} {{ p.last_name }}
                             </div>
-
                         </a>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% endif %}
         <!-- By Skills -->
-
         {% if data.by_skill %}
-            <div class="text-center">
-                We got {{ count }} student matching these requirements
-            </div>
-            <hr>
-            {% for p in data.by_skill %}
-                <br>
-                <div
-                        class="row bg-light rounded"
-                        style="display: flex; text-align: center; font-size: large"
-                >
-                    <div class="text-center col-12">
-                        <a href="{% url 'public_profile' p.username %}">
+            <div class="row">
+                <div class="col-12">
+                    We got {{ count }} student matching these requirements
+                    <hr class="sr">
+                </div>
+                {% for p in data.by_skill %}
+                    <div class="col-md-4 col-12 ml-1 mr-1 mt-1 mb-1 bg-light text-left search-results ">
+                        <a href="{% url 'public_profile' p.username %}" class="text-dark">
                             <div>{{ p.username }}
                                 <br>
                                 {{ p.first_name }} {{ p.last_name }}
                             </div>
-
                         </a>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         {% endif %}
     {% else %}
-        <div class="text-center">
-            Sorry we didn't found them. Maybe aliens took them.
+        <div class="row">
+            Sorry we couldn't found them.
         </div>
     {% endif %}
 </main>

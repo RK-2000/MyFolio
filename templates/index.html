@@ -17,18 +17,19 @@
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\index.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main_app\stylesheets\navbar-style.css' %}">
     <style>
-        .background-img {
+        .background {
+            z-index: -1;
+            position: fixed;
             background: url({% static 'main_app\img\people-edit.jpg' %}) 50% fixed no-repeat;
             background-size: cover;
             height: 100%;
-            position: absolute;
             width: 100%;
-            z-index: -1;
         }
 
         .background-cover {
-            background-color: rgba(240, 240, 240, .80);
-            position: absolute;
+            z-index: -1;
+            background-color: rgba(0,0,0, .50);
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -49,15 +50,15 @@
 
 </head>
 <body>
-<div class="background-img">
-    <div class="background-cover">
-    </div>
+<div class="background">
 </div>
-<nav class="navbar navbar-expand-md navbar-light">
+<div class="background-cover">
+</div>
+<nav class="navbar navbar-expand-md navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand text-dark ml-3" href="#" id="logo-name">
+        <a class="navbar-brand ml-3" href="#" id="logo-name">
             <img src="{% static 'main_app/img/Group 2@2x.png' %}" class="navbar-brand" id="logo" width="30px">
-                    MyFolio
+            MyFolio
         </a>
     </div>
 </nav>
@@ -72,53 +73,15 @@
 <div class="fullnav mr-4" id="fullnav">
     <nav class="fullnavMenu mr-4">
         <ul>
-            <li><a href="#">Overview</a></li>
+            <li><a href="#"></a></li>
             <li><a href="#">Quick Guide</a></li>
             <li><a href="#">Contact us</a></li>
         </ul>
     </nav>
 </div>
-
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header justify-content-center">
-                <h5 class="modal-title" id="exampleModalCenterTitle">Log In</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST">
-                    {% csrf_token %}
-                    {% if messages %}
-                        <h3>
-                            Errors
-                        </h3>
-                        <ul class="messages">
-                            {% for message in messages %}
-                                <li{% if message.tags %}
-                                    class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    Email {{ form.email }}
-                    <br>
-                    Password {{ form.password }}
-                    <br>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-success" name="submit">Log in</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 <main class="container">
     <div class="row" id="welcome-message">
-        <h1 class="col-12 text-dark" id="welcome-message-heading">
+        <h1 class="col-12" id="welcome-message-heading">
             Welcome to MyFolio.
         </h1>
         <article class="col-12 col-md-8" id="welcome-message-article">
@@ -128,7 +91,7 @@
         </article>
     </div>
     <div class="button-group row">
-        <a class="btn text-dark col-md-6" id="login-btn-2" href="{% url 'verify_user' %}">Login</a>
+        <a class="btn col-md-6" id="login-btn-2" href="{% url 'verify_user' %}">Login</a>
         <a class="btn col-12 col-md-6" id="new-account-btn" href="{% url 'new_account' %}">
             Create Account
         </a>

@@ -1,302 +1,325 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MyFolio - Home</title>
-    <link rel="stylesheet" type="text/css" href="#" />
+    <link rel="stylesheet" type="text/css" href="#"/>
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+    />
+
+    <link
+            rel="stylesheet"
+            href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}"
     />
     <link
-      rel="stylesheet"
-      href="{% static 'main_app\fonts\Quicksand\stylesheet.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      href="{% static 'main_app\fonts\google-sans\stylesheet.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'main_app\stylesheets\home.css' %}"
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'main_app\stylesheets\home.css' %}"
     />
     <style>
-      .background {
-        z-index: -1;
-        position: fixed;
-        background: url({%static "main_app\img\d2.png" %}) 50% fixed no-repeat;
-        background-size: cover;
-        height: 100%;
-        width: 100%;
-      }
+        .background {
+            z-index: -1;
+            position: fixed;
+            background: url({%static "main_app\img\d2.png" %}) 50% fixed no-repeat;
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+        }
 
-      .background-cover {
-        z-index: -1;
-        background-color: rgba(208,231,255, 0.9);
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
+        .background-cover {
+            z-index: -1;
+            background-color: rgba(208, 231, 255, 0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        $("#toggle").click(function () {
-          $(this).toggleClass("active");
-          $("#fullnav").toggleClass("open");
+        $(document).ready(function () {
+            $("#toggle").click(function () {
+                $(this).toggleClass("active");
+                $("#fullnav").toggleClass("open");
+            });
         });
-      });
 
-      function myFunction() {
-        var x = document.getElementById("exampleInputPassword1");
-        if (x.type === "password") {
-          x.type = "text";
-        } else {
-          x.type = "password";
+        function myFunction() {
+            var x = document.getElementById("exampleInputPassword1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
         }
-      }
 
-      function Copy() {
-        var copyText = document.getElementById("myInput");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999);
-        document.execCommand("copy");
-        alert("Copied the text: " + copyText.value);
-      }
+        function Copy() {
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Copied the text: " + copyText.value);
+        }
     </script>
-  </head>
-  <body>
-    <div class="background"></div>
-    <div class="background-cover"></div>
-    <script>
-      {% if me %}
-          alert('{{ me }}');
-          window.location.href = "{% url 'user_profile'%}";
-      {% endif %}
-    </script>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
-      <div class="row d-flex justify-content-between" id="items">
+</head>
+<body>
+<div class="background"></div>
+<div class="background-cover"></div>
+<script>
+    {% if me %}
+        alert('{{ me }}');
+        window.location.href = "{% url 'user_profile'%}";
+    {% endif %}
+</script>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+    <div class="row d-flex justify-content-between" id="items">
         <div class="col-2 col-md-2">
 
-          <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'main_app/img/Group 2@2x.png' %}" width="30px">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'main_app/img/Group 2@2x.png' %}" width="30px">
             </a>
         </div>
         </button>
         <div class="col-7 col-md-6 search-area">
-          <form class="form-inline row" role="search" method="POST">
-            {% csrf_token %}
-            {{ form.searchForm.search }}
-            <input type="hidden" name='form_type' value="search">
-            <button class="btn btn-default col-2" type="submit">
-              <svg width="26" height="26"
-                   viewBox="0 0 16 16"
-                   style="color:white"
-                   class="bi bi-search" fill="currentColor"
-                   xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                        d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                  <path fill-rule="evenodd"
-                        d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-              </svg>
-          </button>
-          </form>
+            <form class="form-inline row" role="search" method="POST">
+                {% csrf_token %}
+                {{ form.searchForm.search }}
+                <input type="hidden" name='form_type' value="search">
+                <button class="btn btn-default col-2" type="submit">
+                    <svg width="26" height="26"
+                         viewBox="0 0 16 16"
+                         style="color:white"
+                         class="bi bi-search" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                        <path fill-rule="evenodd"
+                              d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                    </svg>
+                </button>
+            </form>
         </div>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
         >
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-        </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-list"
+                 viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            </svg>
         </button>
         <div class="col-4" id="options">
-          <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ">
-              <li class="nav-item active ">
-                <a class="nav-link" href="#"
-                  ><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
-                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
-                  </svg></a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-chat-right-dots" viewBox="0 0 16 16">
-                  <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
-                  <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                </svg></a>
-              </li>
-              <li class="nav-item dropleft">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-          {% if u.profile_picture %}
-          <img
-            src="media/{{ u.profile_picture }}"
-            width="30px"
-            style="border-radius: 50%"
-          />
-          {% else %}
-          <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg>
-          {% endif %}     
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
-                  <a class="dropdown-item" href="#">Change Password</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
-                </div>
-              </li>
-            </ul>
-          </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto ">
+                    <li class="nav-item active ">
+                        <a class="nav-link" href="#"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                 class="bi bi-house-door" viewBox="0 0 16 16">
+                                <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                            </svg>
+                        </a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                                 class="bi bi-chat-right-dots" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
+                                <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="nav-item dropleft">
+                        <a
+                                class="nav-link dropdown-toggle"
+                                href="#"
+                                id="navbarDropdown"
+                                role="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                        >
+                            {% if u.profile_picture %}
+                                <img
+                                        src="media/{{ u.profile_picture }}"
+                                        width="30px"
+                                        style="border-radius: 50%"
+                                />
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white"
+                                     class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                    <path fill-rule="evenodd"
+                                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                </svg>
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
+                            <a class="dropdown-item" href="#">Change Password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
-    </nav>
-
-    <div class="extra-space mb-4"></div>
-    <main class="container">
-      <div class="add-blog row justify-content-center" id="add-blog">
+    </div>
+</nav>
+<div class="extra-space mb-4"></div>
+<main class="container">
+    <div class="add-blog row justify-content-center" id="add-blog">
         <div class="col-12 text-center">
-          {% if form.errors %} {% for key,values in form.errors.items %}
-          <div class="alert alert-primary" role="alert">
-            <div>{{ values }}</div>
-            <br />
-          </div>
-          {% endfor %} {% endif %} {% if messages %} {% for message in messages %}
-          <div class="alert alert-primary" role="alert">
-            <div>{{ message }}</div>
-            <br />
-          </div>
-          {% endfor %} {% endif %}
+            {% if form.errors %} {% for key,values in form.errors.items %}
+                <div class="alert alert-primary" role="alert">
+                    <div>{{ values }}</div>
+                    <br/>
+                </div>
+            {% endfor %} {% endif %} {% if messages %} {% for message in messages %}
+            <div class="alert alert-primary" role="alert">
+                <div>{{ message }}</div>
+                <br/>
+            </div>
+        {% endfor %} {% endif %}
         </div>
-        <div class="card bg-light col-12 col-md-10 mb-3">
-          <div class="card-body">
-            <div class="card-title lead">Want to share some news?</div>
-            <p class="card-text"></p>
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-toggle="modal"
-              data-target="#exampleModal"
-            >
-              Create a Post
-            </button>
-          </div>
+        <div class="card text-center bg-light col-12 col-md-6 mb-3">
+            <div class="card-body text-dak">
+                <p class="card-text d-flex justify-content-start">
+                <div>
+                </div>
+                {% if u.profile_picture %}
+                    <img
+                            src="media/{{ u.profile_picture }}"
+                            width="60px"
+                            style="border-radius: 50%"
+                    />
+                {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="white"
+                         class="bi bi-person-circle" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd"
+                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                {% endif %} - {{ user.first_name }} {{ user.last_name }}
+                <button
+                        type="button"
+                        class="btn btn-outline-dark ml-4 "
+                        data-toggle="modal"
+                        data-target="#exampleModal"
+                >
+                    Create a Post
+                </button>
+                </p>
+
+            </div>
         </div>
         <!-- Modal -->
         <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
+                class="modal fade text-dark"
+                id="exampleModal"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Create a post
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form method="post" enctype="multipart/form-data">
-                  {% csrf_token %} {{ form.addBlog.as_p }}
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button type="submit" class="btn btn-primary">
-                    Yes! Post it
-                  </button>
-                </form>
-              </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Create a post
+                        </h5>
+                        <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %} {{ form.addBlog.as_p }}
+                            <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal"
+                            >
+                                Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Yes! Post it
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- Card -->
-      {% if data %} {% for d in data reversed %}
-      <div class="row mb-5">
-        <div class="col-12 card-container mb-2">
-          <div class="card shadow bg-light text-dark blogs">
-            <div class="card-body row">
-              <div class="col-10">
-                <a
-                  class="card-title text-dark h5"
-                  href="http://127.0.0.1:8000/profile/{{ d.author }}"
-                  >{{ d.author_fn }}
-                </a>
-              </div>
+    </div>
+    <!-- Card -->
+    {% if data %} {% for d in data reversed %}
+        <div class="row mb-5">
+            <div class="col-12 card-container mb-2">
+                <div class="card shadow bg-light text-dark blogs">
+                    <div class="card-body row">
+                        <div class="col-10">
+                            <a
+                                    class="card-title text-dark h5 ml-2"
+                                    href="http://127.0.0.1:8000/profile/{{ d.author }}"
+                            >{{ d.author_fn }}
+                            </a>
+                        </div>
 
-              <div class="col-12">
-                <p class="card-text">
-                  <small class="text-muted"
-                    ><strong>Uploaded at</strong> {{ d.created_at|date:'h:i, M D' }}</small
-                  >
-                </p>
-              </div>
-              <div class="col-12">
-                <p class="card-text desc">{{ d.description }}</p>
-              </div>
-              <div class="col-12 image">
-                {% if d.image %}
-                <img src="media/{{ d.image }}" class="card-img-top" alt="" />
-                {% endif %}
-              </div>
+                        <div class="col-12">
+                            <p class="card-text ml-2">
+                                <small class="text-muted"
+                                ><strong>Uploaded at</strong> {{ d.created_at|date:'h:i, M D' }}</small
+                                >
+                            </p>
+                        </div>
+                        <div class="col-12 image">
+                            {% if d.image %}
+                                <img src="media/{{ d.image }}" class="card-img-top" alt=""/>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <p class="card-text desc"><strong>{{ d.author }}</strong> : {{ d.description }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-      {% endfor %} {% endif %}
-    </main>
+    {% endfor %} {% endif %}
+</main>
 
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-      integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+<script
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"
+></script>
+</body>
 </html>
