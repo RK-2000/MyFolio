@@ -65,7 +65,7 @@ def new_account(request):
                     user.save()
                     messages.success(request, "Account created")
                     request.session.set_expiry(3600)
-                    login(request, user)
+                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                     return redirect('home')
                 else:
                     messages.error(request, "User already created for this email and enrollment id!")
@@ -91,7 +91,7 @@ def verify_user(request):
                     user = User.objects.all().filter(email=email).first()
                     if user.password == password:
                         request.session.set_expiry(3600)
-                        login(request, user)
+                        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                         return redirect('home')
                     else:
                         messages.error(request, 'Wrong Password! Try again')
@@ -129,7 +129,7 @@ class BlogView(LoginRequiredMixin, View):
                     im_thumb = expand2square(im, (0, 0, 0)).resize((thumb_width, thumb_width), Image.LANCZOS)
                     loc = 'media/' + str(d.image)
                     im_thumb.save(loc)
-        return render(request, 'home.html', {'data': data, 'form': form, 'me': me, 'u': u,'user':user})
+        return render(request, 'home.html', {'data': data, 'form': form, 'me': me, 'u': u, 'user': user})
 
     def post(self, request):
         if self.request.POST.get('form_type') == 'search':
@@ -323,7 +323,7 @@ class GeneralDetails(LoginRequiredMixin, View):
             form = SearchForm(request.POST)
             search = (form['search'].value()).lower()
             return redirect(search_result, **{'search': search})
-        
+
         elif self.request.POST.get('form_type') == 'form6':
             form6 = UpdateUser(request.POST, request.FILES)
             if form6.is_valid():

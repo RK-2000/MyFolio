@@ -1,7 +1,7 @@
 body, html {
     height: 100%;
+    color:white;
 }
-
 body {
     top: 0;
     bottom: 0;
@@ -9,11 +9,9 @@ body {
     right: 0;
     max-width: 100%;
     font-family: Quicksand;
-    color: black;
 }
 
 #form-div {
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -30,10 +28,12 @@ body {
 }
 
 #center-form {
-    color: black;
-    background-color: rgba(255, 255, 255,.90);
-    max-width: 440px;
+    color: white;
+    background-color: rgba(0,0,0,.6);
+    border: rgba(255, 255, 255, 0.8) solid 2px;
+    max-width: 500px;
     min-width: 280px;
+    width: 100%;
     padding: 10px 20px;
     margin-bottom: 30px;
 }
@@ -48,9 +48,10 @@ form > h2 {
 form > label {
     margin-top: 20px;
 }
-form > small{
-    color: black;
-    opacity: .8;
+.small-form{
+    color: white;
+    font-family: Montserrat;
+
 }
 
 .alert {
@@ -60,16 +61,18 @@ form > small{
 .btn {
     margin: 10px 5px;
     width: 280px;
-    color: black;
+    color: white;
     border: #FF4E4E solid 2px;
     font-size: 20px;
-    background-color: white;
+    background-color: transparent;
     left: 50%;
+    font-family: Montserrat;
 }
 .btn:hover{
-    background-color: #e4e4e4;
-    color: black;
+    background-color: transparent;
+    color: lightblue;
     border-color: #5897fb;
+    font-weight: bold;
 }
 
 @media screen and (max-width: 600px) {

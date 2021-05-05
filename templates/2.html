@@ -1,0 +1,430 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+            crossorigin="anonymous"></script>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'main_app\fonts\google-sans' %}"
+    />
+    <title>Chat - Room name</title>
+    <style>
+        html, body {
+            font-family: "Google Sans";
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+
+        }
+
+        #chat-heading {
+            font-size: 20px;
+        }
+
+        #search {
+            background-color: rgba(255, 255, 255, 0.9)
+
+        }
+
+        #chat-options {
+            background-color: #b9d3fd;
+            border-bottom-left-radius: 50px;
+            border-top-left-radius: 50px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+
+        }
+
+        .chat-image {
+            border-radius: 50px;
+        }
+
+        #chat-name {
+            font-size: 20px;
+        }
+
+        #chat-box {
+            padding-left: 0px;
+            padding-top: 20px;
+            height: 72vh;
+            border-radius: 10px;
+            overflow-y: scroll;
+            margin-bottom: 30px;
+        }
+
+        li {
+            padding: 10px 8px;
+            list-style: none;
+            max-width: 300px;
+            min-width: 210px;
+            width: 100%;
+            background-color: #b0d0ff;
+            font-size: 14px;
+        }
+
+        .content {
+            margin-right: 0;
+        }
+
+        .right {
+            margin-left: 0;
+        }
+
+        #chat-message-submit {
+            background-color: #85AFF6;
+        }
+
+
+        #main {
+            height: 100vh;
+            width: 100vw;
+            background-color: #EDF0F5;
+        }
+
+        #chat-section {
+            margin: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+        }
+
+        #chat-options-section {
+            margin: 0px 0px;
+            padding-top: 15px;
+
+        }
+
+        #chat-info {
+            padding-top: 10vh;
+            justify-content: center;
+            align-items: center;
+            font-family: "Google Sans Display Medium";
+        }
+
+        .info-box {
+            width: 220px;
+            border-radius: 15px;
+            background-image: linear-gradient(90deg, #B3BDFF, #E7E1FF);
+        }
+
+        .info-box-num {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6266E4;
+
+        }
+
+        .info-box-text {
+            font-size: 14px;
+            color: #6266E4;
+        }
+
+        .green-text {
+            color: #0DC200;
+        }
+
+        #green {
+            background-image: linear-gradient(90deg, #B8FFBD, #E5FFE4);
+        }
+
+        ::-webkit-scrollbar {
+            width: 15px;
+            height: 15px;
+        }
+
+
+        ::-webkit-scrollbar-thumb:vertical {
+            height: 30px;
+            background-color: #0A4C95;
+        }
+
+        .sent-by-me {
+            border: 2px #cedfff solid;
+            background-color: transparent;
+            float: right;
+
+        }
+    </style>
+
+</head>
+<body class="container-fluid">
+
+<div class="row" id="main">
+    <div id="chat-options-section" class="col-lg-2 d-none d-md-block">
+        <div class="row">
+            <div class="col-12">
+                <div class="row d-flex justify-content-start">
+                    <div class="col-1">
+                        <a href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                                 class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="col-8" id="chat-heading">
+                        Chat
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <hr>
+            </div>
+
+            <div id="search" class="rounded-lg col-12 d-flex justify-content-between align-items-center py-2 ml-1">
+                Search
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                         class="bi bi-search"
+                         viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="col-12 mt-3 mb-1 d-flex justify-content-end">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-plus-square"
+                     viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </div>
+            <div class="col-12 mt-2 pt-1 pb-1 ml-1 pl-0" id="chat-options">
+                <div class="row d-flex align-items-center">
+                    <div class="col-3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+                             width="50px" height="50px" class="chat-image">
+                    </div>
+                    <div class="col-6">
+                        SISTec-GN
+                    </div>
+                    <div class="col-3 pr-1 small">
+                        06:30pm
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-section" class="col-lg-6">
+        <div class="row">
+            <div class="col-12 mb-2">
+                <div class="row text-left d-flex align-items-center" id="chat-box-head">
+                    <div class="col-2 col-md-1">
+                        <img class="chat-image"
+                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+                             width="50px" height="50px">
+                    </div>
+                    <div class="col-8" id="chat-name">
+                        SISTec-GN
+                    </div>
+                </div>
+            </div>
+            <div class="col-12" id="chat-box" contenteditable="true">
+                <!-- If by other person-->
+                <ul id="chat-list" class="row">
+
+                </ul>
+            </div>
+            <script>
+                var objDiv = document.getElementById("chat-list");
+                objDiv.scrollTop = objDiv.scrollHeight;
+            </script>
+            <div class="col-12 input-group mt-2">
+                <textarea type="text" class="form-control" placeholder="Write your message here!!"
+                          aria-label="Recipient's username" aria-describedby="button-addon2" id="chat-message-input"
+                          style="resize: none" rows="1"></textarea>
+                <div class="input-group-append">
+                    <button class="btn text-light" id="chat-message-submit">
+                        Send
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                             class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-3 mx-4 my-4 text-center d-none d-md-block" id="chat-info">
+        <div class="col-12 text-center">
+            <img class=" chat-image rounded-circle shadow"
+                 src="https://pbs.twimg.com/profile_images/1147050623734439937/_U1pO8pw_400x400.jpg" width="180px">
+        </div>
+        <div class="col-12 h4 text-center mt-4 mb-4">
+            SISTec -GN
+        </div>
+        <div class="col-12 text center rounded mt-4 mb-4 d-flex justify-content-center">
+            <div class="row info-box pt-2 pb-2 d-flex align-items-center">
+                <div class="col-8 info-box-text">
+                    Total Members
+                </div>
+                <div class="col-4 info-box-num">
+                    100
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text center rounded mt-4 d-flex justify-content-center">
+            <div class="row info-box pt-2 pb-2 d-flex align-items-center" id="green">
+                <div class="col-8 info-box-text green-text">
+                    Active Members
+                </div>
+                <div class="col-4 info-box-num green-text">
+                    50
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ room_name|json_script:"room-name" }}
+<script>
+    const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/chat/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        if (data['command'] === 'messages') {
+            for (let i = 0; i < data['messages'].length; i++) {
+                createMessage(data['messages'][i]);
+            }
+        } else if (data['command'] === 'new_message') {
+            createMessage(data['message'])
+        }
+        var chatList = document.getElementById('chat-list')
+        chatList.lastChild.scrollIntoView()
+    };
+
+    chatSocket.onopen = function (e) {
+        fetchMessages()
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'command': 'new_message',
+        }));
+        messageInputDom.value = '';
+    };
+
+    function fetchMessages() {
+
+        chatSocket.send(
+            JSON.stringify({'command': 'fetch_messages'})
+        );
+    }
+
+    function sent_by_others(data) {
+        var ul = document.getElementById("chat-list");
+        var li = document.createElement("li");
+
+        var author = document.createElement('div');
+        var content = document.createElement('div');
+        var timestamp = document.createElement('div');
+
+
+        var message = data;
+        var text = message['content'];
+        var time = message['timestamp'];
+        var username = message['author'];
+
+        var data = document.createTextNode(text);
+        var data2 = document.createTextNode(time);
+        var data3 = document.createTextNode(username);
+
+        author.appendChild(data3);
+        content.appendChild(data);
+        timestamp.appendChild(data2);
+
+        author.setAttribute('class', 'username');
+        timestamp.setAttribute('class', 'small text-right');
+
+        li.appendChild(author);
+        li.appendChild(content);
+        li.appendChild(timestamp);
+
+
+        li.setAttribute('class', 'my-2 py-2 col-12');
+        ul.appendChild(li);
+    }
+
+    function sent_by_me(data) {
+        var ul = document.getElementById("chat-list");
+        var li = document.createElement("li");
+
+        var timestamp = document.createElement('div');
+        var content = document.createElement('div');
+        var message = data;
+        var text = message['content'];
+        var time = message['timestamp'];
+
+        var data = document.createTextNode(text);
+        var data2 = document.createTextNode(time);
+
+        content.appendChild(data);
+        content.setAttribute('id', 'right');
+
+        timestamp.appendChild(data2);
+        timestamp.setAttribute('class', 'small text-right');
+
+        li.appendChild(content);
+        li.appendChild(timestamp);
+
+        li.setAttribute('class', 'sent-by-me bg-light my-2 py-2 text-right col-12');
+        ul.appendChild(li);
+    }
+
+    function createMessage(data) {
+        var message = data
+        var author = message['author']
+        var username = "0187cs181114"
+        if (author === username) {
+            sent_by_me(data)
+        } else {
+            sent_by_others(data)
+        }
+    }
+
+</script>
+</body>
+</html>

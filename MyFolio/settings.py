@@ -32,6 +32,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 INSTALLED_APPS = [
 
     'main_app.apps.MainAppConfig',
+    'chat.apps.ChatConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,7 +45,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google'
+    'allauth.socialaccount.providers.google',
+
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -154,3 +158,10 @@ EMAIL_HOST_PASSWORD = 'svpgjrzctrbrhfwq'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'MyFolio Team <LocalHost>'
+
+ASGI_APPLICATION = "MyFolio.asgi.application"
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
