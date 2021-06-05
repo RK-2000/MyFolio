@@ -66,9 +66,7 @@ class Education(models.Model):
     grade = models.CharField(max_length=10, blank=True, null=True)
 
 
-class Certification(models.Model):
-    certificate_id = models.AutoField(primary_key=True)
-    certificate_owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    certificate_name = models.CharField(max_length=40, blank=False, null=False)
-    certificate_auth_id = models.CharField(max_length=60, blank=True, null=True)
-    certificate_picture = models.ImageField(blank=True, null=True, upload_to='images/certificates/')
+class Documents(models.Model):
+    document_id = models.AutoField(primary_key=True)
+    document_owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    document = models.FileField(blank=True, null=True, upload_to='images/documents/')

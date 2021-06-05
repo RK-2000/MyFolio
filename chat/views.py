@@ -7,3 +7,5 @@ from main_app.views import login
 def room(request, room_name):
     if request.user.is_authenticated:
         return render(request, '2.html', {'room_name': room_name, 'username': request.user})
+    else:
+        print('log in please')

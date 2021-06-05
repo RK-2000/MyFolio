@@ -112,7 +112,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto ">
                     <li class="nav-item active ">
-                        <a class="nav-link" href="#"
+                        <a class="nav-link" href="{% url 'home' %}"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                                  class="bi bi-house-door" viewBox="0 0 16 16">
@@ -122,7 +122,7 @@
                         >
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="http://127.0.0.1:8000/chat/sistec/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
                                  class="bi bi-chat-right-dots" viewBox="0 0 16 16">
                                 <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"/>
@@ -152,10 +152,11 @@
                             {% endif %}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{% url 'user_profile' %}"">Edit Profile</a>
+                            <a class="dropdown-item active" href="{% url 'user_profile' %}"">Edit Profile</a>
                             <a class="dropdown-item" href="#">Change Password</a>
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter"> Delete Account </a>
                         </div>
                     </li>
                 </ul>
@@ -163,11 +164,30 @@
         </div>
     </div>
 </nav>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Delete this account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Do you want to permanently delete this account ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a type="button" class="btn btn-primary" href="{% url 'delete_account' user.username %}"> Yes. Delete it.</a>
+      </div>
+    </div>
+  </div>
+</div>
 <main class="container-fluid">
     <div class="col-12 text-center">
         {% if form.errors %}
             {% for key,values in form.errors.items %}
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <div>{{ values }}</div>
                     <br>
                 </div>
@@ -175,7 +195,7 @@
         {% endif %}
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-primary" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <div>{{ message }}</div>
                     <br>
                 </div>

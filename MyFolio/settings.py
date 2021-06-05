@@ -78,6 +78,7 @@ TEMPLATES = [
         },
     },
 ]
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 WSGI_APPLICATION = 'MyFolio.wsgi.application'
 
@@ -151,6 +152,7 @@ SOCIALACCOUNT_PROVIDERS = {
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+'''
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'myfolio.mail@gmail.com'
@@ -158,6 +160,7 @@ EMAIL_HOST_PASSWORD = 'svpgjrzctrbrhfwq'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'MyFolio Team <LocalHost>'
+'''
 
 ASGI_APPLICATION = "MyFolio.asgi.application"
 CHANNEL_LAYERS = {

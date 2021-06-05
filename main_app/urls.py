@@ -35,14 +35,17 @@ urlpatterns = [
     path('user_profileo/<int:edu_id>', views.delete_edu, name='delete_edu'),
     path('user_profileu/<int:pro_id>', views.delete_projects, name='delete_projects'),
     path('user_profilez/<int:blog_id>', views.delete_blogs, name='delete_blogs'),
+    path('delete_account<slug:id>/',views.delete_account,name='delete_account'),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(template_name="registration/password_reset_form.html"),
          name='password_reset'),
     path('password_reset/done/',
          auth_views.PasswordResetDoneView.as_view(template_name="registration/password_reset_done.html"),
          name='password_reset_done'),
+
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="registration/"),
          name='password_reset_confirm'),
+
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 
 ]

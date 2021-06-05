@@ -3,6 +3,9 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import Message
 from django.contrib.auth.models import User
+import pytz
+
+itc = pytz.timezone('Asia/Kolkata')
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -36,7 +39,7 @@ class ChatConsumer(WebsocketConsumer):
         return {
             'author': message.author.username,
             'content': message.content,
-            'timestamp': str(message.timestamp)
+            'timestamp': str(message.timestamp.astimezone(itc).strftime("%I:%M %p"))
         }
 
     commands = {

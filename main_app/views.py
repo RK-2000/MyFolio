@@ -349,11 +349,24 @@ class GeneralDetails(LoginRequiredMixin, View):
                                                                                username=username)
                     else:
                         messages.error(request, "Username already taken")
+                else:
+                    User.objects.filter(username=self.request.user).update(first_name=first_name,
+                                                                           last_name=last_name,
+                                                                           username=username)
                 return redirect('user_profile')
             else:
                 print(form6.errors)
                 messages.error(request, "Invalid entry in basic information. Try again")
                 return redirect('user_profile')
+
+
+def delete_account(request, id):
+    if request.user.is_authenticated:
+        user = User.objects.filter(username=id)
+        user.delete()
+        return redirect('introduction')
+    else:
+        return redirect('introduction')
 
 
 # Delete Public Profile

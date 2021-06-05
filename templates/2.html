@@ -16,7 +16,7 @@
             type="text/css"
             href="{% static 'main_app\fonts\google-sans' %}"
     />
-    <title>Chat - Room name</title>
+    <title>Chat - SISTec</title>
     <style>
         html, body {
             font-family: "Google Sans";
@@ -65,21 +65,22 @@
         li {
             padding: 10px 8px;
             list-style: none;
-            max-width: 300px;
-            min-width: 210px;
-            width: 100%;
+            max-width: 80vh;
+            min-width: 100px;
+            width: 90%;
             background-color: #b0d0ff;
             font-size: 14px;
+
         }
 
-        .content {
-            margin-right: 0;
+        
+        .sent-by-me {
+            border: 2px #cedfff solid;
+            background-color: transparent;
+            float:right;
         }
 
-        .right {
-            margin-left: 0;
-        }
-
+        
         #chat-message-submit {
             background-color: #85AFF6;
         }
@@ -148,24 +149,24 @@
             background-color: #0A4C95;
         }
 
-        .sent-by-me {
-            border: 2px #cedfff solid;
-            background-color: transparent;
-            float: right;
+        .username{
+            font-family: "Google Sans Display Medium";
 
         }
+
     </style>
 
 </head>
 <body class="container-fluid">
-
+<input type="hidden" value="{{ username }}" id="username">
 <div class="row" id="main">
     <div id="chat-options-section" class="col-lg-2 d-none d-md-block">
         <div class="row">
             <div class="col-12">
                 <div class="row d-flex justify-content-start">
+
                     <div class="col-1">
-                        <a href="#">
+                        <a href="http://127.0.0.1:8000/home">
                             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
                                  class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -272,7 +273,7 @@
                  src="https://pbs.twimg.com/profile_images/1147050623734439937/_U1pO8pw_400x400.jpg" width="180px">
         </div>
         <div class="col-12 h4 text-center mt-4 mb-4">
-            SISTec -GN
+            SISTec-GN
         </div>
         <div class="col-12 text center rounded mt-4 mb-4 d-flex justify-content-center">
             <div class="row info-box pt-2 pb-2 d-flex align-items-center">
@@ -299,7 +300,7 @@
 {{ room_name|json_script:"room-name" }}
 <script>
     const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
+    const username = document.getElementById('username').value;
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -376,15 +377,15 @@
         content.appendChild(data);
         timestamp.appendChild(data2);
 
-        author.setAttribute('class', 'username');
-        timestamp.setAttribute('class', 'small text-right');
+        author.setAttribute('class', 'username text-uppercase');
+        timestamp.setAttribute('class', 'small');
 
         li.appendChild(author);
         li.appendChild(content);
         li.appendChild(timestamp);
 
 
-        li.setAttribute('class', 'my-2 py-2 col-12');
+        li.setAttribute('class', 'my-2 py-2  sent-by-other col-12');
         ul.appendChild(li);
     }
 
@@ -402,7 +403,7 @@
         var data2 = document.createTextNode(time);
 
         content.appendChild(data);
-        content.setAttribute('id', 'right');
+        content.setAttribute('id', 'content');
 
         timestamp.appendChild(data2);
         timestamp.setAttribute('class', 'small text-right');
@@ -410,14 +411,13 @@
         li.appendChild(content);
         li.appendChild(timestamp);
 
-        li.setAttribute('class', 'sent-by-me bg-light my-2 py-2 text-right col-12');
+        li.setAttribute('class', 'sent-by-me bg-light text-right my-2 py-2 col-12');
         ul.appendChild(li);
     }
 
     function createMessage(data) {
         var message = data
         var author = message['author']
-        var username = "0187cs181114"
         if (author === username) {
             sent_by_me(data)
         } else {
